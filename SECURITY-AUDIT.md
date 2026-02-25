@@ -1,12 +1,12 @@
-# NewtArr Security Audit
+# KYHUNTARR Security Audit
 
 **Audit Date:** 2026-02-24
-**Codebase:** NewtArr (fork of Huntarr v6.6.3)
+**Codebase:** KYHUNTARR (fork of KYHUNTARR v6.6.3)
 **Audited By:** Automated analysis (Claude)
 **Scope:** Full codebase — backend Python, frontend JavaScript/HTML, configuration, and deployment
 
-> **Context:** This audit was performed on the v6.6.3 codebase inherited from the upstream Huntarr project.
-> These findings represent **pre-existing issues** in the original code. NewtArr is designed to run behind
+> **Context:** This audit was performed on the v6.6.3 codebase inherited from the upstream KYHUNTARR project.
+> These findings represent **pre-existing issues** in the original code. KYHUNTARR is designed to run behind
 > an SSO proxy (e.g., Authelia, Authentik) in ElfHosted deployments, which mitigates many of the
 > authentication-related findings. Standalone users should review these findings carefully.
 
@@ -46,7 +46,7 @@
 
 - **File:** `frontend/static/js/new-main.js:893-903`
 - **Code:** Log messages from the backend are inserted into the DOM using `innerHTML` without sanitization.
-- **Impact:** If an attacker can influence log content (e.g., via crafted media titles in *arr apps), they could inject arbitrary JavaScript that executes in the context of the NewtArr UI.
+- **Impact:** If an attacker can influence log content (e.g., via crafted media titles in *arr apps), they could inject arbitrary JavaScript that executes in the context of the KYHUNTARR UI.
 - **Mitigation:** Use `textContent` instead of `innerHTML`, or sanitize with DOMPurify before insertion.
 
 ### C4: XSS via innerHTML in Swaparr Download Names
@@ -76,7 +76,7 @@
 ### H2: Proxy Auth Bypass Disables All Authentication
 
 - **File:** `src/primary/auth.py:261-269`, `src/primary/default_configs/general.json:10`
-- **Impact:** The `proxy_auth_bypass` setting (enabled by default in NewtArr) disables all built-in authentication. This is **by design** for SSO-proxied deployments but dangerous if the instance is exposed directly to the internet.
+- **Impact:** The `proxy_auth_bypass` setting (enabled by default in KYHUNTARR) disables all built-in authentication. This is **by design** for SSO-proxied deployments but dangerous if the instance is exposed directly to the internet.
 - **Mitigation:** Documentation clearly warns that this setting assumes an upstream authentication proxy. Standalone users must configure authentication.
 
 ### H3: SSRF via Test Connection Endpoints
@@ -88,7 +88,7 @@
 ### H4: No CSRF Protection
 
 - **File:** `src/primary/web_server.py` (Flask app configuration)
-- **Impact:** The application does not implement CSRF tokens on forms or API endpoints. An attacker could craft a malicious page that submits requests to NewtArr on behalf of an authenticated user.
+- **Impact:** The application does not implement CSRF tokens on forms or API endpoints. An attacker could craft a malicious page that submits requests to KYHUNTARR on behalf of an authenticated user.
 - **Mitigation:** Implement Flask-WTF CSRF protection or add custom CSRF token validation.
 
 ### H5: API Keys Returned in Plaintext
@@ -100,7 +100,7 @@
 ### H6: Wildcard CORS Configuration
 
 - **File:** `src/primary/web_server.py`
-- **Impact:** If CORS headers are set to allow all origins (`*`), any website can make authenticated requests to the NewtArr API.
+- **Impact:** If CORS headers are set to allow all origins (`*`), any website can make authenticated requests to the KYHUNTARR API.
 - **Mitigation:** Restrict CORS to specific trusted origins.
 
 ### H7: XSS via Settings Form Values
@@ -291,7 +291,7 @@
 
 ### I1: Telemetry/Phone-Home Code Removed
 
-The upstream Huntarr telemetry, update-check, and CI integration code has been **successfully removed** in NewtArr. No evidence of outbound data collection, remote code execution, or hidden communication channels was found. This was one of the primary motivations for the fork.
+The upstream KYHUNTARR telemetry, update-check, and CI integration code has been **successfully removed** in KYHUNTARR. No evidence of outbound data collection, remote code execution, or hidden communication channels was found. This was one of the primary motivations for the fork.
 
 ### I2: Two-Factor Authentication Available
 

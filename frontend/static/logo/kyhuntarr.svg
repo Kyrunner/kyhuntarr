@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Purple shield -->
+  <path d="M256 16 L480 80 L480 240 C480 360 370 460 256 500 C142 460 32 360 32 240 L32 80 Z" fill="#9b59b6"/>
+  <!-- Subtle inner border -->
+  <path d="M256 32 L464 92 L464 240 C464 352 360 448 256 486 C152 448 48 352 48 240 L48 92 Z" fill="none" stroke="rgba(187,134,252,0.3)" stroke-width="2"/>
+  <!-- White KY text -->
+  <text x="256" y="290" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="bold" font-size="180" fill="white" letter-spacing="-5">KY</text>
+</svg>

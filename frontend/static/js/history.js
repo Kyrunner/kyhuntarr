@@ -1,5 +1,5 @@
 /**
- * Huntarr - History Module
+ * KYHUNTARR - History Module
  * Handles displaying and managing history entries for all media apps
  */
 
@@ -21,7 +21,7 @@ const historyModule = {
         this.setupEventListeners();
         
         // Initial load if history is active section
-        if (huntarrUI && huntarrUI.currentSection === 'history') {
+        if (kyhuntarrUI && kyhuntarrUI.currentSection === 'history') {
             this.loadHistory();
         }
     },
@@ -414,9 +414,9 @@ const historyModule = {
     
     // Show error
     showError: function(message) {
-        // Use huntarrUI's notification system if available
-        if (typeof huntarrUI !== 'undefined' && typeof huntarrUI.showNotification === 'function') {
-            huntarrUI.showNotification(message, 'error');
+        // Use kyhuntarrUI's notification system if available
+        if (typeof kyhuntarrUI !== 'undefined' && typeof kyhuntarrUI.showNotification === 'function') {
+            kyhuntarrUI.showNotification(message, 'error');
         } else {
             alert(message);
         }
@@ -469,18 +469,18 @@ const historyModule = {
     }
 };
 
-// Initialize when huntarrUI is ready
+// Initialize when kyhuntarrUI is ready
 document.addEventListener('DOMContentLoaded', () => {
     historyModule.init();
     
     // Connect with main app
-    if (typeof huntarrUI !== 'undefined') {
+    if (typeof kyhuntarrUI !== 'undefined') {
         // Add loadHistory to the section switch handler
-        const originalSwitchSection = huntarrUI.switchSection;
+        const originalSwitchSection = kyhuntarrUI.switchSection;
         
-        huntarrUI.switchSection = function(section) {
+        kyhuntarrUI.switchSection = function(section) {
             // Call original function
-            originalSwitchSection.call(huntarrUI, section);
+            originalSwitchSection.call(kyhuntarrUI, section);
             
             // Load history data when switching to history section
             if (section === 'history') {

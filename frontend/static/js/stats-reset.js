@@ -47,8 +47,8 @@ function resetStatsUI() {
     });
     
     // Show success notification if available
-    if (window.huntarrUI && typeof window.huntarrUI.showNotification === 'function') {
-        window.huntarrUI.showNotification('Statistics reset successfully', 'success');
+    if (window.kyhuntarrUI && typeof window.kyhuntarrUI.showNotification === 'function') {
+        window.kyhuntarrUI.showNotification('Statistics reset successfully', 'success');
     }
 }
 

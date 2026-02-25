@@ -1,9 +1,9 @@
 /**
- * Huntarr - New UI Implementation
+ * KYHUNTARR - New UI Implementation
  * Main JavaScript file for handling UI interactions and API communication
  */
 
-let huntarrUI = {
+let kyhuntarrUI = {
     // Current state
     eventSources: {},
     currentSection: 'home', // Default section
@@ -13,10 +13,7 @@ let huntarrUI = {
     configuredApps: {
         sonarr: false,
         radarr: false,
-        lidarr: false,
-        readarr: false, // Added readarr
-        whisparr: false, // Added whisparr
-        eros: false // Added eros
+        lidarr: false
     },
     originalSettings: {}, // Store the full original settings object
     settingsChanged: false, // Flag to track unsaved settings changes
@@ -62,7 +59,7 @@ let huntarrUI = {
         // this.setupStatefulResetButton();
         
         // Apply any preloaded theme immediately to avoid flashing
-        const prefersDarkMode = localStorage.getItem('huntarr-dark-mode') === 'true';
+        const prefersDarkMode = localStorage.getItem('kyhuntarr-dark-mode') === 'true';
         if (prefersDarkMode) {
             document.body.classList.add('dark-theme');
         }
@@ -75,7 +72,7 @@ let huntarrUI = {
             });
         }
         // Ensure logo is visible immediately
-        this.logoUrl = localStorage.getItem('huntarr-logo-url') || this.logoUrl;
+        this.logoUrl = localStorage.getItem('kyhuntarr-logo-url') || this.logoUrl;
         
         // Load media stats
         this.loadMediaStats(); // Load media statistics
@@ -169,9 +166,7 @@ let huntarrUI = {
         this.elements.sonarrHomeStatus = document.getElementById('sonarrHomeStatus');
         this.elements.radarrHomeStatus = document.getElementById('radarrHomeStatus');
         this.elements.lidarrHomeStatus = document.getElementById('lidarrHomeStatus');
-        this.elements.readarrHomeStatus = document.getElementById('readarrHomeStatus'); // Added readarr
-        this.elements.whisparrHomeStatus = document.getElementById('whisparrHomeStatus'); // Added whisparr
-        this.elements.erosHomeStatus = document.getElementById('erosHomeStatus'); // Added eros
+
         
         // Actions
         this.elements.startHuntButton = document.getElementById('startHuntButton');
@@ -330,13 +325,13 @@ let huntarrUI = {
         // Dark mode toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
         if (darkModeToggle) {
-            const prefersDarkMode = localStorage.getItem('huntarr-dark-mode') === 'true';
+            const prefersDarkMode = localStorage.getItem('kyhuntarr-dark-mode') === 'true';
             darkModeToggle.checked = prefersDarkMode;
             
             darkModeToggle.addEventListener('change', function() {
                 const isDarkMode = this.checked;
                 document.body.classList.toggle('dark-theme', isDarkMode);
-                localStorage.setItem('huntarr-dark-mode', isDarkMode);
+                localStorage.setItem('kyhuntarr-dark-mode', isDarkMode);
             });
         }
         
@@ -449,7 +444,7 @@ let huntarrUI = {
         window.addEventListener('beforeunload', () => {
             // Store logo src in session storage to persist across page loads
             if (this.logoSrc) {
-                sessionStorage.setItem('huntarr-logo-src', this.logoSrc);
+                sessionStorage.setItem('kyhuntarr-logo-src', this.logoSrc);
             }
         });
     },
@@ -635,7 +630,7 @@ let huntarrUI = {
             // Set the iframe source when switching to this section
             const sponsorsFrame = document.getElementById('sponsorsFrame');
             if (sponsorsFrame && (!sponsorsFrame.src || sponsorsFrame.src === 'about:blank')) { // Set src only if not already set or blank
-                sponsorsFrame.src = 'https://github.com/sponsors/plexguide';
+                sponsorsFrame.src = 'https://github.com/Kyrunner/kyhuntarr';
             }
             // Disconnect logs if switching away from logs
             this.disconnectAllEventSources();
@@ -685,7 +680,7 @@ let huntarrUI = {
         if (pageTitleElement) {
             pageTitleElement.textContent = newTitle;
         } else {
-            console.warn("[huntarrUI] currentPageTitle element not found during section switch.");
+            console.warn("[kyhuntarrUI] currentPageTitle element not found during section switch.");
         }
     },
     
@@ -718,8 +713,6 @@ let huntarrUI = {
         if (logAppSelect) logAppSelect.value = app;
         // Update the current log app text with proper capitalization
         let displayName = app.charAt(0).toUpperCase() + app.slice(1);
-        if (app === 'whisparr') displayName = 'Whisparr V2';
-        else if (app === 'eros') displayName = 'Whisparr V3';
         if (this.elements.currentLogApp) this.elements.currentLogApp.textContent = displayName;
         // Switch to the selected app logs
         this.currentLogApp = app;
@@ -740,8 +733,6 @@ let huntarrUI = {
         if (historyAppSelect) historyAppSelect.value = app;
         // Update the current history app text with proper capitalization
         let displayName = app.charAt(0).toUpperCase() + app.slice(1);
-        if (app === 'whisparr') displayName = 'Whisparr V2';
-        else if (app === 'eros') displayName = 'Whisparr V3';
         if (this.elements.currentHistoryApp) this.elements.currentHistoryApp.textContent = displayName;
         // Update the placeholder text
         this.updateHistoryPlaceholder(app);
@@ -798,7 +789,7 @@ let huntarrUI = {
         }
         
         this.currentSettingsTab = app;
-        console.log(`[huntarrUI] Switched settings tab to: ${this.currentSettingsTab}`); // Added logging
+        console.log(`[kyhuntarrUI] Switched settings tab to: ${this.currentSettingsTab}`); // Added logging
     },
     
     // Logs handling
@@ -833,8 +824,8 @@ let huntarrUI = {
                 try {
                     const logString = event.data;
                     // Regex to parse log lines: Optional [APP], Timestamp, Logger, Level, Message
-                    // Example: [SONARR] 2024-01-01 12:00:00 - huntarr.sonarr - INFO - Message content
-                    // Example: 2024-01-01 12:00:00 - huntarr - DEBUG - System message
+                    // Example: [SONARR] 2024-01-01 12:00:00 - kyhuntarr.sonarr - INFO - Message content
+                    // Example: 2024-01-01 12:00:00 - kyhuntarr - DEBUG - System message
                     const logRegex = /^(?:\\[(\\w+)\\]\\s)?([\\d\\-]+\\s[\\d:]+)\\s-\\s([\\w\\.]+)\\s-\\s(\\w+)\\s-\\s(.*)$/;
                     const match = logString.match(logRegex);
 
@@ -845,11 +836,11 @@ let huntarrUI = {
                         // If we have a match with app tag like [SONARR], use that
                         logAppType = match[1].toLowerCase();
                     } else if (match && match[3]) {
-                        // Otherwise try to determine from the logger name (e.g., huntarr.sonarr)
+                        // Otherwise try to determine from the logger name (e.g., kyhuntarr.sonarr)
                         const loggerParts = match[3].split('.');
                         if (loggerParts.length > 1) {
                             const possibleApp = loggerParts[1].toLowerCase();
-                            if (['sonarr', 'radarr', 'lidarr', 'readarr', 'whisparr', 'eros', 'swaparr'].includes(possibleApp)) {
+                            if (['sonarr', 'radarr', 'lidarr'].includes(possibleApp)) {
                                 logAppType = possibleApp;
                             }
                         }
@@ -861,11 +852,7 @@ let huntarrUI = {
                         const patterns = {
                             'sonarr': ['episode', 'series', 'tv show', 'sonarr'],
                             'radarr': ['movie', 'film', 'radarr'],
-                            'lidarr': ['album', 'artist', 'track', 'music', 'lidarr'],
-                            'readarr': ['book', 'author', 'readarr'],
-                            'whisparr': ['scene', 'adult', 'whisparr'],
-                            'eros': ['eros', 'whisparr v3', 'whisparrv3'],
-                            'swaparr': ['added strike', 'max strikes reached', 'would have removed', 'strikes, removing download', 'processing stalled downloads', 'swaparr']
+                            'lidarr': ['album', 'artist', 'track', 'music', 'lidarr']
                         };
                         
                         // Check each app's patterns
@@ -894,7 +881,7 @@ let huntarrUI = {
                             <span class="log-timestamp" title="${timestamp}">${timestamp.split(' ')[1]}</span> 
                             ${appName ? `<span class="log-app" title="Source: ${appName}">[${appName}]</span>` : ''}
                             <span class="log-level log-level-${level.toLowerCase()}" title="Level: ${level}">${level}</span>
-                            <span class="log-logger" title="Logger: ${loggerName}">(${loggerName.replace('huntarr.', '')})</span>
+                            <span class="log-logger" title="Logger: ${loggerName}">(${loggerName.replace('kyhuntarr.', '')})</span>
                             <span class="log-message">${message}</span>
                         `;
                         logEntry.classList.add(`log-${level.toLowerCase()}`);
@@ -912,28 +899,17 @@ let huntarrUI = {
                     // Add to logs container
                     this.elements.logsContainer.appendChild(logEntry);
                     
-                    // Special event dispatching for Swaparr logs
-                    if (logAppType === 'swaparr' && this.currentLogApp === 'swaparr') {
-                        // Dispatch a custom event for swaparr.js to process
-                        const swaparrEvent = new CustomEvent('swaparrLogReceived', {
-                            detail: {
-                                logData: match && match[5] ? match[5] : logString
-                            }
-                        });
-                        document.dispatchEvent(swaparrEvent);
-                    }
-                    
                     // Auto-scroll to bottom if enabled
                     if (this.autoScroll) {
                         this.elements.logsContainer.scrollTop = this.elements.logsContainer.scrollHeight;
                     }
                 } catch (error) {
-                    console.error('[huntarrUI] Error processing log message:', error, 'Data:', event.data);
+                    console.error('[kyhuntarrUI] Error processing log message:', error, 'Data:', event.data);
                 }
             };
             
             eventSource.onerror = (err) => {
-                console.error(`[huntarrUI] EventSource error for app ${this.currentLogApp}:`, err);
+                console.error(`[kyhuntarrUI] EventSource error for app ${this.currentLogApp}:`, err);
                 if (this.elements.logConnectionStatus) {
                     this.elements.logConnectionStatus.textContent = 'Error/Disconnected';
                     this.elements.logConnectionStatus.className = 'status-error'; // Use a specific error class
@@ -941,18 +917,18 @@ let huntarrUI = {
                 // Close the potentially broken connection
                 if (this.eventSources.logs) {
                     this.eventSources.logs.close();
-                    console.log(`[huntarrUI] Closed potentially broken log EventSource for ${this.currentLogApp}.`);
+                    console.log(`[kyhuntarrUI] Closed potentially broken log EventSource for ${this.currentLogApp}.`);
                 }
                 // Attempt to reconnect after a delay, but only if still on the logs page
                 if (this.currentSection === 'logs') {
-                    console.log(`[huntarrUI] Attempting to reconnect log stream for ${this.currentLogApp} in 5 seconds...`);
+                    console.log(`[kyhuntarrUI] Attempting to reconnect log stream for ${this.currentLogApp} in 5 seconds...`);
                     setTimeout(() => {
                         // Double-check if still on logs page before reconnecting
                         if (this.currentSection === 'logs') {
-                             console.log(`[huntarrUI] Reconnecting log stream for ${this.currentLogApp}.`);
+                             console.log(`[kyhuntarrUI] Reconnecting log stream for ${this.currentLogApp}.`);
                              this.connectToLogs(); // Re-initiate connection
                         } else {
-                             console.log(`[huntarrUI] Log reconnect cancelled; user navigated away from logs section.`);
+                             console.log(`[kyhuntarrUI] Log reconnect cancelled; user navigated away from logs section.`);
                         }
                     }, 5000); // 5-second delay
                 }
@@ -960,7 +936,7 @@ let huntarrUI = {
             
             this.eventSources.logs = eventSource; // Store the reference
         } catch (e) {
-            console.error(`[huntarrUI] Failed to create EventSource for app ${appType}:`, e);
+            console.error(`[kyhuntarrUI] Failed to create EventSource for app ${appType}:`, e);
             if (this.elements.logConnectionStatus) {
                 this.elements.logConnectionStatus.textContent = 'Failed to connect';
                 this.elements.logConnectionStatus.className = 'status-error';
@@ -975,12 +951,12 @@ let huntarrUI = {
                  try {
                      if (source.readyState !== EventSource.CLOSED) {
                          source.close();
-                         console.log(`[huntarrUI] Closed event source for ${key}.`);
+                         console.log(`[kyhuntarrUI] Closed event source for ${key}.`);
                      } else {
-                         console.log(`[huntarrUI] Event source for ${key} was already closed.`);
+                         console.log(`[kyhuntarrUI] Event source for ${key} was already closed.`);
                      }
                  } catch (e) {
-                     console.error(`[huntarrUI] Error closing event source for ${key}:`, e);
+                     console.error(`[kyhuntarrUI] Error closing event source for ${key}:`, e);
                  }
             }
             // Clear the reference
@@ -1139,7 +1115,7 @@ let huntarrUI = {
         this.settingsChanged = false;
         
         // Get all settings to populate forms
-        HuntarrUtils.fetchWithTimeout('/api/settings')
+        KYHUNTARRUtils.fetchWithTimeout('/api/settings')
             .then(response => response.json())
             .then(data => {
                 console.log('Loaded settings:', data);
@@ -1151,10 +1127,6 @@ let huntarrUI = {
                 if (data.sonarr) this.populateSettingsForm('sonarr', data.sonarr);
                 if (data.radarr) this.populateSettingsForm('radarr', data.radarr);
                 if (data.lidarr) this.populateSettingsForm('lidarr', data.lidarr);
-                if (data.readarr) this.populateSettingsForm('readarr', data.readarr);
-                if (data.whisparr) this.populateSettingsForm('whisparr', data.whisparr);
-                if (data.eros) this.populateSettingsForm('eros', data.eros);
-                if (data.swaparr) this.populateSettingsForm('swaparr', data.swaparr);
                 if (data.general) this.populateSettingsForm('general', data.general);
                 
                 // Update duration displays (like sleep durations)
@@ -1188,14 +1160,14 @@ let huntarrUI = {
                     try {
                         SettingsForms.updateDurationDisplay();
                     } catch (e) {
-                        console.error(`[huntarrUI] Error updating duration display:`, e);
+                        console.error(`[kyhuntarrUI] Error updating duration display:`, e);
                     }
                 }
             } else {
-                console.error(`[huntarrUI] Form generator function not found for app: ${app}`);
+                console.error(`[kyhuntarrUI] Form generator function not found for app: ${app}`);
             }
         } else {
-            console.error('[huntarrUI] SettingsForms is not defined');
+            console.error('[kyhuntarrUI] SettingsForms is not defined');
             return;
         }
     },
@@ -1203,7 +1175,7 @@ let huntarrUI = {
     // Called when any setting input changes in the active tab
     markSettingsAsChanged() {
         if (!this.settingsChanged) {
-            console.log("[huntarrUI] Settings marked as changed.");
+            console.log("[kyhuntarrUI] Settings marked as changed.");
             this.settingsChanged = true;
             this.updateSaveResetButtonState(true); // Enable buttons
         }
@@ -1211,7 +1183,7 @@ let huntarrUI = {
 
     saveSettings: function() {
         const app = this.currentSettingsTab;
-        console.log(`[huntarrUI] saveSettings called for app: ${app}`);
+        console.log(`[kyhuntarrUI] saveSettings called for app: ${app}`);
         
         // Clear the unsaved changes flag BEFORE sending the request
         // This prevents the "unsaved changes" dialog from appearing
@@ -1222,12 +1194,12 @@ let huntarrUI = {
         let settings = this.getFormSettings(app);
 
         if (!settings) {
-            console.error(`[huntarrUI] Failed to collect settings for app: ${app}`);
+            console.error(`[kyhuntarrUI] Failed to collect settings for app: ${app}`);
             this.showNotification('Error collecting settings from form.', 'error');
             return;
         }
 
-        console.log(`[huntarrUI] Collected settings for ${app}:`, settings);
+        console.log(`[kyhuntarrUI] Collected settings for ${app}:`, settings);
         
         // Check if this is general settings and if auth bypass settings are changed
         const isLocalAccessBypassChanged = app === 'general' && 
@@ -1241,15 +1213,15 @@ let huntarrUI = {
             this.originalSettings.general.proxy_auth_bypass !== settings.proxy_auth_bypass;
             
         // Log changes to authentication settings
-        console.log(`[huntarrUI] Local access bypass changed: ${isLocalAccessBypassChanged}`);
-        console.log(`[huntarrUI] Proxy auth bypass changed: ${isProxyAuthBypassChanged}`);
+        console.log(`[kyhuntarrUI] Local access bypass changed: ${isLocalAccessBypassChanged}`);
+        console.log(`[kyhuntarrUI] Proxy auth bypass changed: ${isProxyAuthBypassChanged}`);
 
-        console.log(`[huntarrUI] Sending settings payload for ${app}:`, settings);
+        console.log(`[kyhuntarrUI] Sending settings payload for ${app}:`, settings);
 
         // Use the correct endpoint based on app type
         const endpoint = app === 'general' ? '/api/settings/general' : `/api/settings/${app}`;
         
-        HuntarrUtils.fetchWithTimeout(endpoint, {
+        KYHUNTARRUtils.fetchWithTimeout(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1269,7 +1241,7 @@ let huntarrUI = {
             return response.json();
         })
         .then(savedConfig => {
-            console.log('[huntarrUI] Settings saved successfully:', savedConfig);
+            console.log('[kyhuntarrUI] Settings saved successfully:', savedConfig);
 
             // If any authentication bypass setting was changed, reload the page
             if (isLocalAccessBypassChanged || isProxyAuthBypassChanged) {
@@ -1368,33 +1340,8 @@ let huntarrUI = {
         const settings = {};
         const form = document.getElementById(`${app}Settings`);
         if (!form) {
-            console.error(`[huntarrUI] Settings form for ${app} not found.`);
+            console.error(`[kyhuntarrUI] Settings form for ${app} not found.`);
             return null;
-        }
-
-        // Special handling for Swaparr which has a different structure
-        if (app === 'swaparr') {
-            // Get all inputs directly without filtering for instance fields
-            const inputs = form.querySelectorAll('input, select');
-            inputs.forEach(input => {
-                // Extract the field name without the app prefix
-                let key = input.id;
-                if (key.startsWith(`${app}_`)) {
-                    key = key.substring(app.length + 1);
-                }
-                
-                // Store the value based on input type
-                if (input.type === 'checkbox') {
-                    settings[key] = input.checked;
-                } else if (input.type === 'number') {
-                    settings[key] = input.value === '' ? null : parseInt(input.value, 10);
-                } else {
-                    settings[key] = input.value.trim();
-                }
-            });
-            
-            console.log(`[huntarrUI] Collected Swaparr settings:`, settings);
-            return settings;
         }
 
         // Handle apps that use instances (Sonarr, Radarr, etc.)
@@ -1404,7 +1351,7 @@ let huntarrUI = {
         
         // Check if multi-instance UI elements exist (like Sonarr)
         if (instanceItems.length > 0) {
-            console.log(`[huntarrUI] Found ${instanceItems.length} instance items for ${app}. Processing multi-instance mode.`);
+            console.log(`[kyhuntarrUI] Found ${instanceItems.length} instance items for ${app}. Processing multi-instance mode.`);
             // Multi-instance logic (current Sonarr logic)
             instanceItems.forEach((item, index) => {
                 const instanceId = item.dataset.instanceId; // Assumes Sonarr uses data-instance-id
@@ -1424,7 +1371,7 @@ let huntarrUI = {
                 }
             });
         } else {
-            console.log(`[huntarrUI] No instance items found for ${app}. Processing single-instance mode.`);
+            console.log(`[kyhuntarrUI] No instance items found for ${app}. Processing single-instance mode.`);
             // Single-instance logic (for Radarr, Lidarr, etc.)
             // Look for the standard IDs used in their forms
             const nameInput = form.querySelector(`#${app}_instance_name`); // Check for a specific name field
@@ -1445,7 +1392,7 @@ let huntarrUI = {
             }
         }
 
-        console.log(`[huntarrUI] Processed instances for ${app}:`, settings.instances);
+        console.log(`[kyhuntarrUI] Processed instances for ${app}:`, settings.instances);
 
         // Now collect any OTHER settings NOT part of the instance structure
         const allInputs = form.querySelectorAll('input, select');
@@ -1473,14 +1420,6 @@ let huntarrUI = {
         }
 
         allInputs.forEach(input => {
-            // Handle special case for Whisparr version
-            if (input.id === 'whisparr_version') {
-                if (app === 'whisparr') {
-                    settings['whisparr_version'] = input.value.trim();
-                    return; // Skip further processing for this field
-                }
-            }
-
             // Skip buttons and fields already processed as part of an instance
             if (input.type === 'button' || handledInstanceFieldIds.has(input.id)) {
                 return;
@@ -1507,7 +1446,7 @@ let huntarrUI = {
             }
         });
 
-        console.log(`[huntarrUI] Final collected settings for ${app}:`, settings);
+        console.log(`[kyhuntarrUI] Final collected settings for ${app}:`, settings);
         return settings;
     },
 
@@ -1633,7 +1572,7 @@ let huntarrUI = {
         url = this.cleanUrlString(url);
         
         // Make the API request to test the connection
-        HuntarrUtils.fetchWithTimeout(`/api/${appName}/test-connection`, {
+        KYHUNTARRUtils.fetchWithTimeout(`/api/${appName}/test-connection`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1722,13 +1661,11 @@ let huntarrUI = {
         this.checkAppConnection('sonarr');
         this.checkAppConnection('radarr');
         this.checkAppConnection('lidarr');
-        this.checkAppConnection('readarr'); // Added readarr
-        this.checkAppConnection('whisparr'); // Added whisparr
-        this.checkAppConnection('eros'); // Enable actual Eros API check
+
     },
     
     checkAppConnection: function(app) {
-        HuntarrUtils.fetchWithTimeout(`/api/status/${app}`)
+        KYHUNTARRUtils.fetchWithTimeout(`/api/status/${app}`)
             .then(response => response.json())
             .then(data => {
                 // Pass the whole data object for all apps
@@ -1752,7 +1689,7 @@ let huntarrUI = {
         const appBox = statusElement.closest('.app-stats-card'); // CORRECTED SELECTOR
         if (!appBox) {
             // If the card structure changes, this might fail. Log a warning.
-            console.warn(`[huntarrUI] Could not find parent '.app-stats-card' element for ${app}`);
+            console.warn(`[kyhuntarrUI] Could not find parent '.app-stats-card' element for ${app}`);
         }
 
         let isConfigured = false;
@@ -1768,7 +1705,7 @@ let huntarrUI = {
         let totalConfigured = statusData?.total_configured ?? 0;
         
         // For all *arr apps, 'isConfigured' means at least one instance is configured
-        if (['sonarr', 'radarr', 'lidarr', 'readarr', 'whisparr', 'eros'].includes(app)) {
+        if (['sonarr', 'radarr', 'lidarr'].includes(app)) {
             isConfigured = totalConfigured > 0;
             // For *arr apps, 'isConnected' means at least one instance is connected
             isConnected = isConfigured && connectedCount > 0; 
@@ -1788,7 +1725,7 @@ let huntarrUI = {
         }
 
         // --- Badge Update Logic (only runs if configured) ---
-        if (['sonarr', 'radarr', 'lidarr', 'readarr', 'whisparr', 'eros'].includes(app)) {
+        if (['sonarr', 'radarr', 'lidarr'].includes(app)) {
             // *Arr specific badge text (already checked isConfigured)
             statusElement.innerHTML = `<i class="fas fa-plug"></i> Connected ${connectedCount}/${totalConfigured}`;
             statusElement.className = 'status-badge ' + (isConnected ? 'connected' : 'error');
@@ -1806,7 +1743,7 @@ let huntarrUI = {
     
     // User actions
     startHunt: function() {
-        HuntarrUtils.fetchWithTimeout('/api/hunt/start', { method: 'POST' })
+        KYHUNTARRUtils.fetchWithTimeout('/api/hunt/start', { method: 'POST' })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -1822,7 +1759,7 @@ let huntarrUI = {
     },
     
     stopHunt: function() {
-        HuntarrUtils.fetchWithTimeout('/api/hunt/stop', { method: 'POST' })
+        KYHUNTARRUtils.fetchWithTimeout('/api/hunt/stop', { method: 'POST' })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -1842,7 +1779,7 @@ let huntarrUI = {
         const usernameElement = document.getElementById('username');
         if (!usernameElement) return;
         
-        HuntarrUtils.fetchWithTimeout('/api/user/info')
+        KYHUNTARRUtils.fetchWithTimeout('/api/user/info')
             .then(response => response.json())
             .then(data => {
                 if (data.username) {
@@ -1863,7 +1800,7 @@ let huntarrUI = {
     // Check if local access bypass is enabled and update UI accordingly
     checkLocalAccessBypassStatus: function() {
         console.log("Checking local access bypass status...");
-        HuntarrUtils.fetchWithTimeout('/api/get_local_access_bypass_status') // Corrected URL
+        KYHUNTARRUtils.fetchWithTimeout('/api/get_local_access_bypass_status') // Corrected URL
             .then(response => {
                 if (!response.ok) {
                     // Log error if response is not OK (e.g., 404, 500)
@@ -1947,8 +1884,8 @@ let huntarrUI = {
     
     logout: function(e) { // Added logout function
         e.preventDefault(); // Prevent default link behavior
-        console.log('[huntarrUI] Logging out...');
-        HuntarrUtils.fetchWithTimeout('/logout', { // Use the correct endpoint defined in Flask
+        console.log('[kyhuntarrUI] Logging out...');
+        KYHUNTARRUtils.fetchWithTimeout('/logout', { // Use the correct endpoint defined in Flask
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1957,10 +1894,10 @@ let huntarrUI = {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('[huntarrUI] Logout successful, redirecting to login.');
+                console.log('[kyhuntarrUI] Logout successful, redirecting to login.');
                 window.location.href = '/login'; // Redirect to login page
             } else {
-                console.error('[huntarrUI] Logout failed:', data.message);
+                console.error('[kyhuntarrUI] Logout failed:', data.message);
                 this.showNotification('Logout failed. Please try again.', 'error');
             }
         })
@@ -1972,7 +1909,7 @@ let huntarrUI = {
     
     // Media statistics handling
     loadMediaStats: function() {
-        HuntarrUtils.fetchWithTimeout('/api/stats')
+        KYHUNTARRUtils.fetchWithTimeout('/api/stats')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -1993,7 +1930,7 @@ let huntarrUI = {
     
     updateStatsDisplay: function(stats) {
         // Update each app's statistics
-        const apps = ['sonarr', 'radarr', 'lidarr', 'readarr', 'whisparr', 'eros', 'swaparr'];
+        const apps = ['sonarr', 'radarr', 'lidarr'];
         const statTypes = ['hunted', 'upgraded'];
         
         apps.forEach(app => {
@@ -2038,11 +1975,7 @@ let huntarrUI = {
         const stats = {
             'sonarr': {'hunted': 0, 'upgraded': 0},
             'radarr': {'hunted': 0, 'upgraded': 0},
-            'lidarr': {'hunted': 0, 'upgraded': 0},
-            'readarr': {'hunted': 0, 'upgraded': 0},
-            'whisparr': {'hunted': 0, 'upgraded': 0},
-            'eros': {'hunted': 0, 'upgraded': 0},
-            'swaparr': {'hunted': 0, 'upgraded': 0}
+            'lidarr': {'hunted': 0, 'upgraded': 0}
         };
         
         // Immediately update UI before even showing the confirmation
@@ -2063,7 +1996,7 @@ let huntarrUI = {
         try {
             const requestBody = appType ? { app_type: appType } : {};
             
-            HuntarrUtils.fetchWithTimeout('/api/stats/reset_public', {
+            KYHUNTARRUtils.fetchWithTimeout('/api/stats/reset_public', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -2127,7 +2060,7 @@ let huntarrUI = {
 
     // Load current version from version.txt
     loadCurrentVersion: function() {
-        HuntarrUtils.fetchWithTimeout('/version.txt')
+        KYHUNTARRUtils.fetchWithTimeout('/version.txt')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to load version.txt');
@@ -2152,7 +2085,7 @@ let huntarrUI = {
     // Load latest version from GitHub releases (disabled - upstream repo removed)
     loadLatestVersion: function() {
         return;
-        HuntarrUtils.fetchWithTimeout('https://api.github.com/repos/plexguide/Huntarr.io/releases/latest')
+        KYHUNTARRUtils.fetchWithTimeout('https://api.github.com/repos/Kyrunner/kyhuntarr/releases/latest')
             .then(response => {
                 if (!response.ok) {
                     // Handle rate limiting or other errors
@@ -2185,7 +2118,7 @@ let huntarrUI = {
     // Load latest beta version from GitHub tags (disabled - upstream repo removed)
     loadBetaVersion: function() {
         return;
-        HuntarrUtils.fetchWithTimeout('https://api.github.com/repos/plexguide/Huntarr.io/tags?per_page=100')
+        KYHUNTARRUtils.fetchWithTimeout('https://api.github.com/repos/Kyrunner/kyhuntarr/tags?per_page=100')
             .then(response => {
                 if (!response.ok) {
                     // Handle rate limiting or other errors
@@ -2208,10 +2141,10 @@ let huntarrUI = {
                         betaVersionElement.textContent = betaTag.name;
                         // Store in localStorage for future reference
                         try {
-                            const versionInfo = localStorage.getItem('huntarr-version-info') || '{}';
+                            const versionInfo = localStorage.getItem('kyhuntarr-version-info') || '{}';
                             const parsedInfo = JSON.parse(versionInfo);
                             parsedInfo.betaVersion = betaTag.name;
-                            localStorage.setItem('huntarr-version-info', JSON.stringify(parsedInfo));
+                            localStorage.setItem('kyhuntarr-version-info', JSON.stringify(parsedInfo));
                         } catch (e) {
                             console.error('Error saving beta version to localStorage:', e);
                         }
@@ -2240,9 +2173,9 @@ let huntarrUI = {
         starsElement.textContent = 'Loading...';
         
         // GitHub API endpoint for repository information
-        const apiUrl = 'https://api.github.com/repos/plexguide/huntarr';
+        const apiUrl = 'https://api.github.com/repos/Kyrunner/kyhuntarr';
         
-        HuntarrUtils.fetchWithTimeout(apiUrl)
+        KYHUNTARRUtils.fetchWithTimeout(apiUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`GitHub API error: ${response.status}`);
@@ -2260,7 +2193,7 @@ let huntarrUI = {
                         stars: data.stargazers_count,
                         timestamp: Date.now()
                     };
-                    localStorage.setItem('huntarr-github-stars', JSON.stringify(cacheData));
+                    localStorage.setItem('kyhuntarr-github-stars', JSON.stringify(cacheData));
                 } else {
                     throw new Error('Star count not found in response');
                 }
@@ -2269,7 +2202,7 @@ let huntarrUI = {
                 console.error('Error fetching GitHub stars:', error);
                 
                 // Try to load from cache if we have it
-                const cachedData = localStorage.getItem('huntarr-github-stars');
+                const cachedData = localStorage.getItem('kyhuntarr-github-stars');
                 if (cachedData) {
                     try {
                         const parsed = JSON.parse(cachedData);
@@ -2300,7 +2233,7 @@ let huntarrUI = {
 
     // Add updateHomeConnectionStatus if it doesn't exist or needs adjustment
     updateHomeConnectionStatus: function() {
-        console.log('[huntarrUI] Updating home connection statuses...');
+        console.log('[kyhuntarrUI] Updating home connection statuses...');
         // This function should ideally call checkAppConnection for all relevant apps
         // or use the stored configuredApps status if checkAppConnection updates it.
         this.checkAppConnections(); // Re-check all connections after a save might be simplest
@@ -2325,7 +2258,7 @@ let huntarrUI = {
         }
         
         // First check if we have cached data in localStorage that we can use immediately
-        const cachedStatefulData = localStorage.getItem('huntarr-stateful-data');
+        const cachedStatefulData = localStorage.getItem('kyhuntarr-stateful-data');
         if (!skipCache && cachedStatefulData && attempts === 0) {
             try {
                 const parsedData = JSON.parse(cachedStatefulData);
@@ -2361,7 +2294,7 @@ let huntarrUI = {
         }
         
         // Always fetch fresh data from the server
-        HuntarrUtils.fetchWithTimeout('/api/stateful/info', { 
+        KYHUNTARRUtils.fetchWithTimeout('/api/stateful/info', { 
             cache: 'no-cache',
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -2378,7 +2311,7 @@ let huntarrUI = {
         .then(data => {
             if (data.success) {
                 // Cache the response with a timestamp for future use
-                localStorage.setItem('huntarr-stateful-data', JSON.stringify({
+                localStorage.setItem('kyhuntarr-stateful-data', JSON.stringify({
                     ...data,
                     timestamp: Date.now()
                 }));
@@ -2455,7 +2388,7 @@ let huntarrUI = {
             }
             
             // Use cached data as fallback if available
-            const cachedStatefulData = localStorage.getItem('huntarr-stateful-data');
+            const cachedStatefulData = localStorage.getItem('kyhuntarr-stateful-data');
             if (cachedStatefulData) {
                 try {
                     console.log('[StatefulInfo] Using cached data as fallback after failed fetch');
@@ -2555,7 +2488,7 @@ let huntarrUI = {
         // Add debug logging
         console.log("Sending reset request to /api/stateful/reset");
         
-        HuntarrUtils.fetchWithTimeout('/api/stateful/reset', {
+        KYHUNTARRUtils.fetchWithTimeout('/api/stateful/reset', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -2621,7 +2554,7 @@ let huntarrUI = {
         const url = '/api/stateful/update-expiration';
         const cleanedUrl = this.cleanUrlString(url);
         
-        HuntarrUtils.fetchWithTimeout(cleanedUrl, {
+        KYHUNTARRUtils.fetchWithTimeout(cleanedUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -2638,7 +2571,7 @@ let huntarrUI = {
         })
         .then(data => {
             if (data.success) {
-                console.log('[huntarrUI] Stateful expiration updated successfully:', data);
+                console.log('[kyhuntarrUI] Stateful expiration updated successfully:', data);
                 
                 // Get updated info to show proper dates
                 this.loadStatefulInfo(0, true);
@@ -2665,14 +2598,14 @@ let huntarrUI = {
     // Add the updateStatefulExpiration method
     updateStatefulExpiration: function(hours) {
         if (!hours || typeof hours !== 'number' || hours <= 0) {
-            console.error('[huntarrUI] Invalid hours value for updateStatefulExpiration:', hours);
+            console.error('[kyhuntarrUI] Invalid hours value for updateStatefulExpiration:', hours);
             return;
         }
         
-        console.log(`[huntarrUI] Directly updating stateful expiration to ${hours} hours`);
+        console.log(`[kyhuntarrUI] Directly updating stateful expiration to ${hours} hours`);
         
         // Make a direct API call to update the stateful expiration
-        HuntarrUtils.fetchWithTimeout('/api/stateful/update-expiration', {
+        KYHUNTARRUtils.fetchWithTimeout('/api/stateful/update-expiration', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -2686,7 +2619,7 @@ let huntarrUI = {
             return response.json();
         })
         .then(data => {
-            console.log('[huntarrUI] Stateful expiration updated successfully:', data);
+            console.log('[kyhuntarrUI] Stateful expiration updated successfully:', data);
             // Update the expiration date display
             const expiresDateEl = document.getElementById('stateful_expires_date');
             if (expiresDateEl && data.expires_date) {
@@ -2694,7 +2627,7 @@ let huntarrUI = {
             }
         })
         .catch(error => {
-            console.error('[huntarrUI] Error updating stateful expiration:', error);
+            console.error('[kyhuntarrUI] Error updating stateful expiration:', error);
         });
     },
     
@@ -2782,7 +2715,7 @@ let huntarrUI = {
         return originalJSON !== currentJSON;
     },
     
-    // Add resetAppCycle function to the huntarrUI object
+    // Add resetAppCycle function to the kyhuntarrUI object
     resetAppCycle: function(app, button) {
         // Show spinner and disable button
         const originalButtonText = button.innerHTML;
@@ -2827,8 +2760,8 @@ let huntarrUI = {
 
 // Initialize when document is ready
 document.addEventListener('DOMContentLoaded', () => {
-    huntarrUI.init();
+    kyhuntarrUI.init();
 });
 
-// Expose huntarrUI to the global scope for access by app modules
-window.huntarrUI = huntarrUI;
+// Expose kyhuntarrUI to the global scope for access by app modules
+window.kyhuntarrUI = kyhuntarrUI;

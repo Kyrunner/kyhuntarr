@@ -1,22 +1,21 @@
 /**
- * Scheduling functionality for Huntarr
+ * Scheduling functionality for KYHUNTARR
  * Implements a SABnzbd-style scheduler for controlling Arr application behavior
  */
 
 // Define the schedules object in the global window scope to prevent redeclaration errors
 // This ensures the variable is only declared once no matter how many times the script loads
-window.huntarrSchedules = window.huntarrSchedules || {
+window.kyhuntarrSchedules = window.kyhuntarrSchedules || {
     global: [],
     sonarr: [],
     radarr: [],
-    lidarr: [],
-    readarr: []
+    lidarr: []
 };
 
 // Use an immediately invoked function expression to create a new scope
 (function() {
     // Reference the global schedules object
-    const schedules = window.huntarrSchedules;
+    const schedules = window.kyhuntarrSchedules;
     
     /**
      * Capitalize the first letter of a string
@@ -113,7 +112,7 @@ function setupEventListeners() {
     
     // Only set up the event handler during initialization, not on every page render
     // Use a closure to ensure event listener is registered only once
-    if (!window.huntarrSchedulerInitialized) {
+    if (!window.kyhuntarrSchedulerInitialized) {
         // Document level listener to catch delete actions regardless of when items are added
         document.addEventListener('click', function(e) {
             // Only react to delete buttons
@@ -134,7 +133,7 @@ function setupEventListeners() {
         });
         
         // Flag to prevent duplicate initialization
-        window.huntarrSchedulerInitialized = true;
+        window.kyhuntarrSchedulerInitialized = true;
         console.debug('Scheduler event handlers initialized once');
     }
 }
@@ -147,7 +146,7 @@ async function fetchAppInstances() {
     console.debug('Fetching app instances from list.json for scheduler dropdown'); // DEBUG level per user preference
     
     // Define the app types we support (for fallback)
-    const appTypes = ['sonarr', 'radarr', 'lidarr', 'readarr', 'whisparr', 'eros', 'bazarr'];
+    const appTypes = ['sonarr', 'radarr', 'lidarr'];
     const instances = {};
     
     // Initialize all app types with empty arrays
@@ -229,10 +228,7 @@ function loadAppInstances() {
         { value: 'global', text: 'All Apps (Global)' },
         { value: 'sonarr-all', text: 'Sonarr' },
         { value: 'radarr-all', text: 'Radarr' },
-        { value: 'lidarr-all', text: 'Lidarr' },
-        { value: 'readarr-all', text: 'Readarr' },
-        { value: 'whisparr-v2', text: 'Whisparr V2' },
-        { value: 'whisparr-v3', text: 'Whisparr V3' }
+        { value: 'lidarr-all', text: 'Lidarr' }
     ];
     
     // Add each app to the dropdown
@@ -480,8 +476,8 @@ function saveSchedules() {
                 if (data.success) {
                     console.debug('Schedules saved successfully');
                     // Show success toast notification
-                    if (window.huntarrUI && typeof window.huntarrUI.showNotification === 'function') {
-                        huntarrUI.showNotification('Schedules saved successfully!', 'success');
+                    if (window.kyhuntarrUI && typeof window.kyhuntarrUI.showNotification === 'function') {
+                        kyhuntarrUI.showNotification('Schedules saved successfully!', 'success');
                     } else {
                         alert('Schedules saved successfully!'); // Fallback
                     }
@@ -671,10 +667,6 @@ function renderSchedules() {
             const [app, instanceId] = schedule.app.split('-');
             if (instanceId === 'all') {
                 appText = `All ${capitalizeFirst(app)} Instances`;
-            } else if (app === 'whisparr' && instanceId === 'v2') {
-                appText = 'Whisparr V2';
-            } else if (app === 'whisparr' && instanceId === 'v3') {
-                appText = 'Whisparr V3';
             } else {
                 appText = `${capitalizeFirst(app)} Instance ${instanceId}`;
             }
@@ -734,8 +726,8 @@ function addSchedule() {
     
     // Validate form inputs (basic validation)
     if (isNaN(hour) || isNaN(minute)) {
-        if (window.huntarrUI && typeof window.huntarrUI.showNotification === 'function') {
-            huntarrUI.showNotification('Please enter a valid hour and minute.', 'error');
+        if (window.kyhuntarrUI && typeof window.kyhuntarrUI.showNotification === 'function') {
+            kyhuntarrUI.showNotification('Please enter a valid hour and minute.', 'error');
         } else {
             alert('Please enter a valid hour and minute.'); // Fallback
         }
@@ -743,9 +735,9 @@ function addSchedule() {
     }
     
     if (!anyDaySelected) {
-        // Assuming huntarrUI is globally available
-        if (window.huntarrUI && typeof window.huntarrUI.showNotification === 'function') {
-            huntarrUI.showNotification('Please select at least one day to save the schedule.', 'error');
+        // Assuming kyhuntarrUI is globally available
+        if (window.kyhuntarrUI && typeof window.kyhuntarrUI.showNotification === 'function') {
+            kyhuntarrUI.showNotification('Please select at least one day to save the schedule.', 'error');
         } else {
             alert('Please select at least one day to save the schedule.'); // Fallback
         }

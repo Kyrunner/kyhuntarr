@@ -2,7 +2,7 @@
 
 (function(app) {
     if (!app) {
-        console.error("Huntarr App core is not loaded!");
+        console.error("KYHUNTARR App core is not loaded!");
         return;
     }
 
@@ -72,4 +72,4 @@
         }
     });
 
-})(window.huntarrUI); // Pass the global UI object
+})(window.kyhuntarrUI); // Pass the global UI object

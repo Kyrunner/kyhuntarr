@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import { json } from '@sveltejs/kit';
-import { invalidateCache } from '$lib/config'; // Assuming config.js handles huntarr.json read/write
+import { invalidateCache } from '$lib/config'; // Assuming config.js handles kyhuntarr.json read/write
 
-const CONFIG_FILE = path.resolve('huntarr.json'); // Path to the main config file
+const CONFIG_FILE = path.resolve('kyhuntarr.json'); // Path to the main config file
 const DEFAULT_CONFIGS_DIR = path.resolve('src/primary/default_configs'); // Path to new default configs
 
 // Helper function to load default settings for a specific app
@@ -26,7 +26,7 @@ function loadDefaultAppSettings(appName) {
 // Helper function to get all default settings combined
 function getAllDefaultSettings() {
     const allDefaults = {};
-    const appNames = ['sonarr', 'radarr', 'lidarr', 'readarr']; // Define known apps
+    const appNames = ['sonarr', 'radarr', 'lidarr']; // Define known apps
     appNames.forEach(appName => {
         const defaults = loadDefaultAppSettings(appName);
         if (Object.keys(defaults).length > 0) {

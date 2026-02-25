@@ -1,5 +1,5 @@
 /**
- * Hourly API Cap Handling for Huntarr
+ * Hourly API Cap Handling for KYHUNTARR
  * Fetches and updates the hourly API usage indicators on the dashboard
  */
 
@@ -42,7 +42,7 @@ function loadHourlyCapData() {
  */
 function updateHourlyCapDisplay(caps, limits) {
     // Update each app's API cap indicator
-    const apps = ['sonarr', 'radarr', 'lidarr', 'readarr', 'whisparr', 'eros'];
+    const apps = ['sonarr', 'radarr', 'lidarr'];
     
     apps.forEach(app => {
         // If we have data for this app

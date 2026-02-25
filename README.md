@@ -1,16 +1,16 @@
-# NewtArr
+# KYHUNTARR
 
-A neutered fork of [Huntarr](https://github.com/plexguide/Huntarr.io) v6.6.3, from simpler times, maintained by [ElfHosted](https://store.elfhosted.com).
+A neutered fork of [KYHUNTARR](https://github.com/Kyrunner/kyhuntarr) v6.6.3, from simpler times, maintained by [ElfHosted](https://store.elfhosted.com).
 
 ## Why this fork?
 
-The original Huntarr project was abandoned under controversial circumstances. The developer introduced telemetry, obfuscated code, and potential security concerns that led to significant community backlash. For context, see [this Reddit thread](https://www.reddit.com/r/selfhosted/comments/1rckopd/huntarr_your_passwords_and_your_entire_arr_stacks/?share_id=uq4GWZe3e0FNKUIXWHiq8).
+The original KYHUNTARR project was abandoned under controversial circumstances. The developer introduced telemetry, obfuscated code, and potential security concerns that led to significant community backlash. For context, see [this Reddit thread](https://www.reddit.com/r/selfhosted/comments/1rckopd/kyhuntarr_your_passwords_and_your_entire_arr_stacks/?share_id=uq4GWZe3e0FNKUIXWHiq8).
 
-NewtArr is based on v6.6.3, the last clean release before the controversial changes. It has been customized for use within [ElfHosted](https://store.elfhosted.com), but can be used standalone.
+KYHUNTARR is based on v6.6.3, the last clean release before the controversial changes. It has been customized for use within [ElfHosted](https://store.elfhosted.com), but can be used standalone.
 
-Read the full announcement: [Huntarr Ends Its Hunt, NewtArr Takes It Up](https://store.elfhosted.com/blog/2026/02/24/huntarr-ends-its-hunt-newtarr-takes-it-up/)
+Read the full announcement: [KYHUNTARR Ends Its Hunt, KYHUNTARR Takes It Up](https://store.elfhosted.com/blog/2026/02/24/kyhuntarr-ends-its-hunt-kyhuntarr-takes-it-up/)
 
-## Huntarr Feature Timeline
+## KYHUNTARR Feature Timeline
 
 Understanding why we forked at v6.6.3:
 
@@ -59,9 +59,9 @@ If you want just the "hunt missing episodes/movies" functionality, the sweet spo
 
 Avoid 7.x+ — that's where the request system, Plex auth, Prowlarr, and the massive DB layer arrived. And 9.x is a completely different application with built-in download clients.
 
-## Changes from upstream Huntarr v6.6.3
+## Changes from upstream KYHUNTARR v6.6.3
 
-- Rebranded to "NewtArr"
+- Rebranded to "KYHUNTARR"
 - ElfHosted green color scheme
 - Authentication disabled by default (designed for SSO-proxied deployments)
 - Graceful Docker shutdown (no more hanging on SIGTERM)
@@ -72,7 +72,7 @@ Avoid 7.x+ — that's where the request system, Plex auth, Prowlarr, and the mas
 
 ## What it does
 
-NewtArr continuously searches your *arr media libraries (Sonarr, Radarr, Lidarr, Readarr, Whisparr) for missing content and items that need quality upgrades. It automatically triggers searches while being gentle on your indexers, helping you gradually complete your media collection.
+KYHUNTARR continuously searches your *arr media libraries (Sonarr, Radarr, Lidarr, Readarr, Whisparr) for missing content and items that need quality upgrades. It automatically triggers searches while being gentle on your indexers, helping you gradually complete your media collection.
 
 | Application | Status |
 | :---------- | :------------ |
@@ -87,9 +87,9 @@ NewtArr continuously searches your *arr media libraries (Sonarr, Radarr, Lidarr,
 
 ```yaml
 services:
-  newtarr:
-    image: ghcr.io/elfhosted/newtarr:latest
-    container_name: newtarr
+  kyhuntarr:
+    image: ghcr.io/kyrunner/kyhuntarr:latest
+    container_name: kyhuntarr
     restart: always
     ports:
       - "9705:9705"
@@ -119,4 +119,4 @@ A comprehensive security audit of the inherited v6.6.3 codebase has been perform
 
 ## License
 
-This project is a fork of Huntarr.io. See [LICENSE](LICENSE) for details.
+This project is a fork of KYHUNTARR.io. See [LICENSE](LICENSE) for details.

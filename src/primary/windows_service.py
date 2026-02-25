@@ -1,6 +1,6 @@
 """
-Windows Service module for Huntarr.
-Allows Huntarr to run as a Windows service.
+Windows Service module for KYHUNTARR.
+Allows KYHUNTARR to run as a Windows service.
 """
 
 import os
@@ -23,13 +23,13 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-logger = logging.getLogger('HuntarrWindowsService')
+logger = logging.getLogger('KYHUNTARRWindowsService')
 
-class HuntarrService(win32serviceutil.ServiceFramework):
-    """Windows Service implementation for Huntarr"""
+class KYHUNTARRService(win32serviceutil.ServiceFramework):
+    """Windows Service implementation for KYHUNTARR"""
     
-    _svc_name_ = "Huntarr"
-    _svc_display_name_ = "Huntarr Service"
+    _svc_name_ = "KYHUNTARR"
+    _svc_display_name_ = "KYHUNTARR Service"
     _svc_description_ = "Automated media collection management for Arr apps"
     
     def __init__(self, args):
@@ -38,19 +38,19 @@ class HuntarrService(win32serviceutil.ServiceFramework):
         self.is_running = False
         socket.setdefaulttimeout(60)
         self.main_thread = None
-        self.huntarr_app = None
+        self.kyhuntarr_app = None
         self.stop_flag = None
         
     def SvcStop(self):
         """Stop the service"""
-        logger.info('Stopping Huntarr service...')
+        logger.info('Stopping KYHUNTARR service...')
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
         win32event.SetEvent(self.stop_event)
         self.is_running = False
         
-        # Signal Huntarr to stop properly
+        # Signal KYHUNTARR to stop properly
         if hasattr(self, 'stop_flag') and self.stop_flag:
-            logger.info('Setting stop flag for Huntarr...')
+            logger.info('Setting stop flag for KYHUNTARR...')
             self.stop_flag.set()
         
     def SvcDoRun(self):
@@ -66,11 +66,11 @@ class HuntarrService(win32serviceutil.ServiceFramework):
     def main(self):
         """Main service loop"""
         try:
-            logger.info('Starting Huntarr service...')
+            logger.info('Starting KYHUNTARR service...')
             
             # Import here to avoid import errors when installing the service
             import threading
-            from primary.background import start_huntarr, stop_event, shutdown_threads
+            from primary.background import start_kyhuntarr, stop_event, shutdown_threads
             from primary.web_server import app
             from waitress import serve
             
@@ -84,8 +84,8 @@ class HuntarrService(win32serviceutil.ServiceFramework):
             
             # Start background tasks in a thread
             background_thread = threading.Thread(
-                target=start_huntarr, 
-                name="HuntarrBackground", 
+                target=start_kyhuntarr, 
+                name="KYHUNTARRBackground", 
                 daemon=True
             )
             background_thread.start()
@@ -93,12 +93,12 @@ class HuntarrService(win32serviceutil.ServiceFramework):
             # Start the web server in a thread
             web_thread = threading.Thread(
                 target=lambda: serve(app, host='0.0.0.0', port=9705, threads=8),
-                name="HuntarrWebServer",
+                name="KYHUNTARRWebServer",
                 daemon=True
             )
             web_thread.start()
             
-            logger.info('Huntarr service started successfully')
+            logger.info('KYHUNTARR service started successfully')
             
             # Main service loop - keep running until stop event
             while self.is_running:
@@ -111,13 +111,13 @@ class HuntarrService(win32serviceutil.ServiceFramework):
                 
                 # Check if threads are still alive
                 if not background_thread.is_alive() or not web_thread.is_alive():
-                    logger.error("Critical: One of the Huntarr threads has died unexpectedly")
+                    logger.error("Critical: One of the KYHUNTARR threads has died unexpectedly")
                     # Try to restart the threads if they died
                     if not background_thread.is_alive():
                         logger.info("Attempting to restart background thread...")
                         background_thread = threading.Thread(
-                            target=start_huntarr, 
-                            name="HuntarrBackground", 
+                            target=start_kyhuntarr, 
+                            name="KYHUNTARRBackground", 
                             daemon=True
                         )
                         background_thread.start()
@@ -126,63 +126,63 @@ class HuntarrService(win32serviceutil.ServiceFramework):
                         logger.info("Attempting to restart web server thread...")
                         web_thread = threading.Thread(
                             target=lambda: serve(app, host='0.0.0.0', port=9705, threads=8),
-                            name="HuntarrWebServer",
+                            name="KYHUNTARRWebServer",
                             daemon=True
                         )
                         web_thread.start()
             
             # Service is stopping, clean up
-            logger.info('Huntarr service is shutting down...')
+            logger.info('KYHUNTARR service is shutting down...')
             
-            # Set the stop event for Huntarr's background tasks
+            # Set the stop event for KYHUNTARR's background tasks
             if not stop_event.is_set():
                 stop_event.set()
             
             # Wait for threads to finish
-            logger.info('Waiting for Huntarr threads to finish...')
+            logger.info('Waiting for KYHUNTARR threads to finish...')
             background_thread.join(timeout=30)
             web_thread.join(timeout=10)
             
-            logger.info('Huntarr service shutdown complete')
+            logger.info('KYHUNTARR service shutdown complete')
             
         except Exception as e:
-            logger.exception(f"Critical error in Huntarr service: {e}")
-            servicemanager.LogErrorMsg(f"Huntarr service error: {str(e)}")
+            logger.exception(f"Critical error in KYHUNTARR service: {e}")
+            servicemanager.LogErrorMsg(f"KYHUNTARR service error: {str(e)}")
 
 
 def install_service():
-    """Install Huntarr as a Windows service"""
+    """Install KYHUNTARR as a Windows service"""
     if sys.platform != 'win32':
         print("Windows service installation is only available on Windows.")
         return False
         
     try:
         win32serviceutil.InstallService(
-            pythonClassString="src.primary.windows_service.HuntarrService",
-            serviceName="Huntarr",
-            displayName="Huntarr Service",
+            pythonClassString="src.primary.windows_service.KYHUNTARRService",
+            serviceName="KYHUNTARR",
+            displayName="KYHUNTARR Service",
             description="Automated media collection management for Arr apps",
             startType=win32service.SERVICE_AUTO_START
         )
-        print("Huntarr service installed successfully.")
+        print("KYHUNTARR service installed successfully.")
         return True
     except Exception as e:
-        print(f"Error installing Huntarr service: {e}")
+        print(f"Error installing KYHUNTARR service: {e}")
         return False
 
 
 def remove_service():
-    """Remove the Huntarr Windows service"""
+    """Remove the KYHUNTARR Windows service"""
     if sys.platform != 'win32':
         print("Windows service removal is only available on Windows.")
         return False
         
     try:
-        win32serviceutil.RemoveService("Huntarr")
-        print("Huntarr service removed successfully.")
+        win32serviceutil.RemoveService("KYHUNTARR")
+        print("KYHUNTARR service removed successfully.")
         return True
     except Exception as e:
-        print(f"Error removing Huntarr service: {e}")
+        print(f"Error removing KYHUNTARR service: {e}")
         return False
 
 
@@ -193,6 +193,6 @@ if __name__ == '__main__':
         elif sys.argv[1] == 'remove':
             remove_service()
         else:
-            win32serviceutil.HandleCommandLine(HuntarrService)
+            win32serviceutil.HandleCommandLine(KYHUNTARRService)
     else:
-        win32serviceutil.HandleCommandLine(HuntarrService)
+        win32serviceutil.HandleCommandLine(KYHUNTARRService)

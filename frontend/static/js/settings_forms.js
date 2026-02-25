@@ -1,5 +1,5 @@
 /**
- * Settings forms for Huntarr
+ * Settings forms for KYHUNTARR
  * This file handles generating HTML forms for each app's settings
  */
 
@@ -436,583 +436,7 @@ const SettingsForms = {
         SettingsForms.setupInstanceManagement(container, 'lidarr', settings.instances.length);
     },
     
-    // Generate Readarr settings form
-    generateReadarrForm: function(container, settings = {}) {
-        // Add data-app-type attribute to container
-        container.setAttribute('data-app-type', 'readarr');
-        
-        // Make sure the instances array exists
-        if (!settings.instances || !Array.isArray(settings.instances) || settings.instances.length === 0) {
-            settings.instances = [{
-                name: "Default",
-                api_url: settings.api_url || "", // Legacy support
-                api_key: settings.api_key || "", // Legacy support
-                enabled: true
-            }];
-        }
-        
-        // Create a container for instances
-        let instancesHtml = `
-            <div class="settings-group">
-                <h3>Readarr Instances</h3>
-                <div class="instances-container">
-        `;
-        
-        // Generate form elements for each instance
-        settings.instances.forEach((instance, index) => {
-            instancesHtml += `
-                <div class="instance-item" data-instance-id="${index}">
-                    <div class="instance-header">
-                        <h4>Instance ${index + 1}: ${instance.name || 'Unnamed'}</h4>
-                        <div class="instance-actions">
-                            ${index > 0 ? '<button type="button" class="remove-instance-btn">Remove</button>' : ''}
-                            <button type="button" class="test-connection-btn" data-instance="${index}" style="margin-left: 10px;">
-                                <i class="fas fa-plug"></i> Test Connection
-                            </button>
-                        </div>
-                    </div>
-                    <div class="instance-content">
-                        <div class="setting-item">
-                            <label for="readarr-name-${index}"><span class="info-icon" title="A friendly label to identify this instance in the UI"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Name:</label>
-                            <input type="text" id="readarr-name-${index}" name="name" value="${instance.name || ''}" placeholder="Friendly name for this Readarr instance">
-                            <p class="setting-help">Friendly name for this Readarr instance</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="readarr-url-${index}"><span class="info-icon" title="The base URL of your Readarr instance, e.g. http://readarr:8787"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;URL:</label>
-                            <input type="text" id="readarr-url-${index}" name="api_url" value="${instance.api_url || ''}" placeholder="Base URL for Readarr (e.g., http://localhost:8787)">
-                            <p class="setting-help">Base URL for Readarr (e.g., http://localhost:8787)</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="readarr-key-${index}"><span class="info-icon" title="Found in your *arr app under Settings > General > API Key"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;API Key:</label>
-                            <input type="text" id="readarr-key-${index}" name="api_key" value="${instance.api_key || ''}" placeholder="API key for Readarr">
-                            <p class="setting-help">API key for Readarr</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="readarr-enabled-${index}"><span class="info-icon" title="Toggle this instance on or off without removing it"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Enabled:</label>
-                            <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                                <input type="checkbox" id="readarr-enabled-${index}" name="enabled" ${instance.enabled !== false ? 'checked' : ''}>
-                                <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        instancesHtml += `
-                </div> <!-- instances-container -->
-                <div class="button-container" style="text-align: center; margin-top: 15px;">
-                    <button type="button" class="add-instance-btn add-readarr-instance-btn">
-                        <i class="fas fa-plus"></i> Add Readarr Instance (${settings.instances.length}/9)
-                    </button>
-                </div>
-            </div> <!-- settings-group -->
-        `;
-        
-        // Continue with the rest of the settings form
-        container.innerHTML = `
-            ${instancesHtml}
-            
-            <div class="settings-group">
-                <h3>Search Settings</h3>
-                <div class="setting-item">
-                    <label for="readarr_hunt_missing_books"><span class="info-icon" title="Number of missing books to search per cycle (0 = disabled)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Missing Search:</label>
-                    <input type="number" id="readarr_hunt_missing_books" name="hunt_missing_books" min="0" value="${settings.hunt_missing_books !== undefined ? settings.hunt_missing_books : 1}">
-                    <p class="setting-help">Number of missing books to search per cycle (0 to disable)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="readarr_hunt_upgrade_books"><span class="info-icon" title="Number of books to search for quality upgrades per cycle (0 = disabled)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Upgrade Search:</label>
-                    <input type="number" id="readarr_hunt_upgrade_books" name="hunt_upgrade_books" min="0" value="${settings.hunt_upgrade_books !== undefined ? settings.hunt_upgrade_books : 0}">
-                    <p class="setting-help">Number of books to search for quality upgrades per cycle (0 to disable)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="readarr_sleep_duration"><span class="info-icon" title="Seconds to wait between search cycles"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Sleep Duration:</label>
-                    <input type="number" id="readarr_sleep_duration" name="sleep_duration" min="60" value="${settings.sleep_duration !== undefined ? settings.sleep_duration : 900}">
-                    <p class="setting-help">Time in seconds between processing cycles</p>
-                </div>
-                <div class="setting-item">
-                    <label for="readarr_hourly_cap"><span class="info-icon" title="Max API requests per hour to avoid rate limiting"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;API Cap - Hourly:</label>
-                    <input type="number" id="readarr_hourly_cap" name="hourly_cap" min="1" max="500" value="${settings.hourly_cap !== undefined ? settings.hourly_cap : 20}">
-                    <p class="setting-help">Maximum API requests per hour (helps prevent rate limiting)</p>
-                    <p class="setting-help" style="color: #cc0000; font-weight: bold;">Setting this too high will risk your accounts being banned! You have been warned!</p>
-                </div>
-            </div>
-            
-            <div class="settings-group">
-                <h3>Additional Options</h3>
-                <div class="setting-item">
-                    <label for="readarr_monitored_only"><span class="info-icon" title="Only process books marked as monitored in Readarr"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Monitored Only:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="readarr_monitored_only" ${settings.monitored_only !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Only search for monitored items</p>
-                </div>
-                <div class="setting-item">
-                    <label for="readarr_skip_future_releases"><span class="info-icon" title="Skip books with future release dates"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Skip Future Releases:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="readarr_skip_future_releases" ${settings.skip_future_releases !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Skip searching for books with future release dates</p>
-                </div>
-            </div>
-        `;
-
-        // Add event listeners for the instance management
-        SettingsForms.setupInstanceManagement(container, 'readarr', settings.instances.length);
-    },
-    
-    // Generate Whisparr settings form
-    generateWhisparrForm: function(container, settings = {}) {
-        // Add data-app-type attribute to container
-        container.setAttribute('data-app-type', 'whisparr');
-        
-        // Make sure the instances array exists
-        if (!settings.instances || !Array.isArray(settings.instances) || settings.instances.length === 0) {
-            settings.instances = [{
-                name: "Default",
-                api_url: "",
-                api_key: "",
-                enabled: true
-            }];
-        }
-
-        // Create a container for instances
-        let instancesHtml = `
-            <div class="settings-group">
-                <h3>Whisparr V2 Instances</h3>
-                <div class="instances-container">
-        `;
-
-        // Generate form elements for each instance
-        settings.instances.forEach((instance, index) => {
-            instancesHtml += `
-                <div class="instance-item" data-instance-id="${index}">
-                    <div class="instance-header">
-                        <h4>Instance ${index + 1}: ${instance.name || 'Unnamed'}</h4>
-                        <div class="instance-actions">
-                            ${index > 0 ? '<button type="button" class="remove-instance-btn">Remove</button>' : ''}
-                            <button type="button" class="test-connection-btn" data-instance="${index}" style="margin-left: 10px;">
-                                <i class="fas fa-plug"></i> Test Connection
-                            </button>
-                        </div>
-                    </div>
-                    <div class="instance-content">
-                        <div class="setting-item">
-                            <label for="whisparr-name-${index}"><span class="info-icon" title="A friendly label to identify this instance in the UI"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Name:</label>
-                            <input type="text" id="whisparr-name-${index}" name="name" value="${instance.name || ''}" placeholder="Friendly name for this Whisparr V2 instance">
-                            <p class="setting-help">Friendly name for this Whisparr V2 instance</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="whisparr-url-${index}"><span class="info-icon" title="The base URL of your Whisparr instance, e.g. http://whisparr:6969"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;URL:</label>
-                            <input type="text" id="whisparr-url-${index}" name="api_url" value="${instance.api_url || ''}" placeholder="Base URL for Whisparr V2 (e.g., http://localhost:6969)">
-                            <p class="setting-help">Base URL for Whisparr V2 (e.g., http://localhost:6969)</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="whisparr-key-${index}"><span class="info-icon" title="Found in your *arr app under Settings > General > API Key"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;API Key:</label>
-                            <input type="text" id="whisparr-key-${index}" name="api_key" value="${instance.api_key || ''}" placeholder="API key for Whisparr V2">
-                            <p class="setting-help">API key for Whisparr V2</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="whisparr-enabled-${index}"><span class="info-icon" title="Toggle this instance on or off without removing it"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Enabled:</label>
-                            <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                                <input type="checkbox" id="whisparr-enabled-${index}" name="enabled" ${instance.enabled !== false ? 'checked' : ''}>
-                                <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        instancesHtml += `
-                </div> <!-- instances-container -->
-                <div class="button-container" style="text-align: center; margin-top: 15px;">
-                    <button type="button" class="add-instance-btn add-whisparr-instance-btn">
-                        <i class="fas fa-plus"></i> Add Whisparr V2 Instance (${settings.instances.length}/9)
-                    </button>
-                </div>
-            </div> <!-- settings-group -->
-        `;
-
-        // Search Settings
-        let searchSettingsHtml = `
-            <div class="settings-group">
-                <h3>Search Settings</h3>
-                <div class="setting-item">
-                    <label for="whisparr_hunt_missing_items"><span class="info-icon" title="Number of missing items to search per cycle (0 = disabled)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Missing Search:</label>
-                    <input type="number" id="whisparr_hunt_missing_items" name="hunt_missing_items" min="0" value="${settings.hunt_missing_items !== undefined ? settings.hunt_missing_items : 1}">
-                    <p class="setting-help">Number of missing items to search per cycle (0 to disable)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="whisparr_hunt_upgrade_items"><span class="info-icon" title="Number of items to search for quality upgrades per cycle (0 = disabled)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Upgrade Search:</label>
-                    <input type="number" id="whisparr_hunt_upgrade_items" name="hunt_upgrade_items" min="0" value="${settings.hunt_upgrade_items !== undefined ? settings.hunt_upgrade_items : 0}">
-                    <p class="setting-help">Number of items to search for quality upgrades per cycle (0 to disable)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="whisparr_sleep_duration"><span class="info-icon" title="Seconds to wait between search cycles"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Sleep Duration:</label>
-                    <input type="number" id="whisparr_sleep_duration" name="sleep_duration" min="60" value="${settings.sleep_duration !== undefined ? settings.sleep_duration : 900}">
-                    <p class="setting-help">Time in seconds between processing cycles</p>
-                </div>
-                <div class="setting-item">
-                    <label for="whisparr_hourly_cap"><span class="info-icon" title="Max API requests per hour to avoid rate limiting"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;API Cap - Hourly:</label>
-                    <input type="number" id="whisparr_hourly_cap" name="hourly_cap" min="1" max="500" value="${settings.hourly_cap !== undefined ? settings.hourly_cap : 20}">
-                    <p class="setting-help">Maximum API requests per hour (helps prevent rate limiting)</p>
-                    <p class="setting-help" style="color: #cc0000; font-weight: bold;">Setting this too high will risk your accounts being banned! You have been warned!</p>
-                </div>
-            </div>
-            
-            <div class="settings-group">
-                <h3>Additional Options</h3>
-                <div class="setting-item">
-                    <label for="whisparr_monitored_only"><span class="info-icon" title="Only process items marked as monitored in Whisparr"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Monitored Only:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="whisparr_monitored_only" name="monitored_only" ${settings.monitored_only !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Only search for monitored items</p>
-                </div>
-                <div class="setting-item">
-                    <label for="whisparr_skip_future_releases"><span class="info-icon" title="Skip items with future release dates"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Skip Future Releases:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="whisparr_skip_future_releases" name="skip_future_releases" ${settings.skip_future_releases !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Skip searching for scenes with future release dates</p>
-                </div>
-            </div>
-        `;
-
-        // Set the content
-        container.innerHTML = instancesHtml + searchSettingsHtml;
-
-        // Add event listeners for the instance management
-        this.setupInstanceManagement(container, 'whisparr', settings.instances.length);
-        
-        // Update duration display
-        this.updateDurationDisplay();
-    },
-    
-    // Generate Eros settings form
-    generateErosForm: function(container, settings = {}) {
-        // Add data-app-type attribute to container
-        container.setAttribute('data-app-type', 'eros');
-        
-        // Make sure the instances array exists
-        if (!settings.instances || !Array.isArray(settings.instances) || settings.instances.length === 0) {
-            settings.instances = [{
-                name: "Default",
-                api_url: "",
-                api_key: "",
-                enabled: true
-            }];
-        }
-
-        // Create a container for instances
-        let instancesHtml = `
-            <div class="settings-group">
-                <h3>Whisparr V3 Instances</h3>
-                <div class="instances-container">
-        `;
-
-        // Generate form elements for each instance
-        settings.instances.forEach((instance, index) => {
-            instancesHtml += `
-                <div class="instance-item" data-instance-id="${index}">
-                    <div class="instance-header">
-                        <h4>Instance ${index + 1}: ${instance.name || 'Unnamed'}</h4>
-                        <div class="instance-actions">
-                            ${index > 0 ? '<button type="button" class="remove-instance-btn">Remove</button>' : ''}
-                            <button type="button" class="test-connection-btn" data-instance="${index}" style="margin-left: 10px;">
-                                <i class="fas fa-plug"></i> Test Connection
-                            </button>
-                        </div>
-                    </div>
-                    <div class="instance-content">
-                        <div class="setting-item">
-                            <label for="eros-name-${index}"><span class="info-icon" title="A friendly label to identify this instance in the UI"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Name:</label>
-                            <input type="text" id="eros-name-${index}" name="name" value="${instance.name || ''}" placeholder="Friendly name for this Whisparr V3 instance">
-                            <p class="setting-help">Friendly name for this Whisparr V3 instance</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="eros-url-${index}"><span class="info-icon" title="The base URL of your Whisparr V3 instance, e.g. http://whisparr:6969"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;URL:</label>
-                            <input type="text" id="eros-url-${index}" name="api_url" value="${instance.api_url || ''}" placeholder="Base URL for Whisparr V3 (e.g., http://localhost:6969)">
-                            <p class="setting-help">Base URL for Whisparr V3 (e.g., http://localhost:6969)</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="eros-key-${index}"><span class="info-icon" title="Found in your *arr app under Settings > General > API Key"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;API Key:</label>
-                            <input type="text" id="eros-key-${index}" name="api_key" value="${instance.api_key || ''}" placeholder="API key for Whisparr V3">
-                            <p class="setting-help">API key for Whisparr V3</p>
-                        </div>
-                        <div class="setting-item">
-                            <label for="eros-enabled-${index}"><span class="info-icon" title="Toggle this instance on or off without removing it"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Enabled:</label>
-                            <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                                <input type="checkbox" id="eros-enabled-${index}" name="enabled" ${instance.enabled !== false ? 'checked' : ''}>
-                                <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        instancesHtml += `
-                </div> <!-- instances-container -->
-                <div class="button-container" style="text-align: center; margin-top: 15px;">
-                    <button type="button" class="add-instance-btn add-eros-instance-btn">
-                        <i class="fas fa-plus"></i> Add Whisparr V3 Instance (${settings.instances.length}/9)
-                    </button>
-                </div>
-            </div> <!-- settings-group -->
-        `;
-
-        // Search Mode dropdown
-        let searchSettingsHtml = `
-            <div class="settings-group">
-                <h3>Search Settings</h3>
-                <div class="setting-item">
-                    <label for="eros_search_mode"><span class="info-icon" title="Strategy for searching missing and upgrade content"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Search Mode:</label>
-                    <select id="eros_search_mode" name="search_mode">
-                        <option value="movie" ${settings.search_mode === 'movie' || !settings.search_mode ? 'selected' : ''}>Movie</option>
-                        <option value="scene" ${settings.search_mode === 'scene' ? 'selected' : ''}>Scene</option>
-                    </select>
-                    <p class="setting-help">How to search for missing and upgradable Whisparr V3 content (Movie-based or Scene-based)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="eros_hunt_missing_items"><span class="info-icon" title="Number of missing items to search per cycle (0 = disabled)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Missing Search:</label>
-                    <input type="number" id="eros_hunt_missing_items" name="hunt_missing_items" min="0" value="${settings.hunt_missing_items !== undefined ? settings.hunt_missing_items : 1}">
-                    <p class="setting-help">Number of missing items to search per cycle (0 to disable)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="eros_hunt_upgrade_items"><span class="info-icon" title="Number of items to search for quality upgrades per cycle (0 = disabled)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Upgrade Search:</label>
-                    <input type="number" id="eros_hunt_upgrade_items" name="hunt_upgrade_items" min="0" value="${settings.hunt_upgrade_items !== undefined ? settings.hunt_upgrade_items : 0}">
-                    <p class="setting-help">Number of items to search for quality upgrades per cycle (0 to disable)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="eros_sleep_duration"><span class="info-icon" title="Seconds to wait between search cycles"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Sleep Duration:</label>
-                    <input type="number" id="eros_sleep_duration" name="sleep_duration" min="60" value="${settings.sleep_duration !== undefined ? settings.sleep_duration : 900}">
-                    <p class="setting-help">Time in seconds between processing cycles</p>
-                </div>
-                <div class="setting-item">
-                    <label for="eros_hourly_cap"><span class="info-icon" title="Max API requests per hour to avoid rate limiting"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;API Cap - Hourly:</label>
-                    <input type="number" id="eros_hourly_cap" name="hourly_cap" min="1" max="500" value="${settings.hourly_cap !== undefined ? settings.hourly_cap : 20}">
-                    <p class="setting-help">Maximum API requests per hour (helps prevent rate limiting)</p>
-                    <p class="setting-help" style="color: #cc0000; font-weight: bold;">Setting this too high will risk your accounts being banned! You have been warned!</p>
-                </div>
-            </div>
-            
-            <div class="settings-group">
-                <h3>Additional Options</h3>
-                <div class="setting-item">
-                    <label for="eros_monitored_only"><span class="info-icon" title="Only process items marked as monitored"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Monitored Only:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="eros_monitored_only" name="monitored_only" ${settings.monitored_only !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Only search for monitored items</p>
-                </div>
-                <div class="setting-item">
-                    <label for="eros_skip_future_releases"><span class="info-icon" title="Skip items with future release dates"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Skip Future Releases:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="eros_skip_future_releases" name="skip_future_releases" ${settings.skip_future_releases !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Skip searching for scenes with future release dates</p>
-                </div>
-            </div>
-        `;
-
-        // Set the content
-        container.innerHTML = instancesHtml + searchSettingsHtml;
-
-        // Add event listeners for the instance management
-        this.setupInstanceManagement(container, 'eros', settings.instances.length);
-        
-        // Update duration display
-        this.updateDurationDisplay();
-    },
-    
-    // Generate Swaparr settings form
-    generateSwaparrForm: function(container, settings = {}) {
-        // Add data-app-type attribute to container
-        container.setAttribute('data-app-type', 'swaparr');
-        
-        container.innerHTML = `
-            <div class="settings-group">
-                <h3>Swaparr (Beta) - Only For Torrent Users</h3>
-                <div class="setting-item">
-                    <p>Swaparr addresses the issue of stalled downloads and I rewrote it to support Huntarr. Visit Swaparr's <a href="https://github.com/ThijmenGThN/swaparr" target="_blank">GitHub</a> for more information and support the developer!</p>
-                </div>
-            </div>
-
-            <div class="settings-group">
-                <h3>Swaparr Settings</h3>
-                <div class="setting-item">
-                    <label for="swaparr_enabled"><span class="info-icon" title="Automatically manage stalled downloads across your *arr apps"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Enable Swaparr:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="swaparr_enabled" ${settings.enabled ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Enable automatic handling of stalled downloads</p>
-                </div>
-                <div class="setting-item">
-                    <label for="swaparr_max_strikes"><span class="info-icon" title="Number of strikes before a stalled download is removed"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Maximum Strikes:</label>
-                    <input type="number" id="swaparr_max_strikes" min="1" max="10" value="${settings.max_strikes || 3}">
-                    <p class="setting-help">Number of strikes before removing a stalled download</p>
-                </div>
-                <div class="setting-item">
-                    <label for="swaparr_max_download_time"><span class="info-icon" title="Maximum time in minutes before a download is considered stalled"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Max Download Time:</label>
-                    <input type="text" id="swaparr_max_download_time" value="${settings.max_download_time || '2h'}">
-                    <p class="setting-help">Maximum time a download can be stalled (e.g., 30m, 2h, 1d)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="swaparr_ignore_above_size"><span class="info-icon" title="Skip downloads larger than this size (in GB)"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Ignore Above Size:</label>
-                    <input type="text" id="swaparr_ignore_above_size" value="${settings.ignore_above_size || '25GB'}">
-                    <p class="setting-help">Ignore files larger than this size (e.g., 1GB, 25GB, 1TB)</p>
-                </div>
-                <div class="setting-item">
-                    <label for="swaparr_remove_from_client"><span class="info-icon" title="Also remove the download from the torrent/usenet client"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Remove From Client:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="swaparr_remove_from_client" ${settings.remove_from_client !== false ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Remove the download from the torrent/usenet client when removed</p>
-                </div>
-                <div class="setting-item">
-                    <label for="swaparr_dry_run"><span class="info-icon" title="Test mode - logs actions without actually removing downloads"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Dry Run Mode:</label>
-                    <label class="toggle-switch" style="width:40px; height:20px; display:inline-block; position:relative;">
-                        <input type="checkbox" id="swaparr_dry_run" ${settings.dry_run === true ? 'checked' : ''}>
-                        <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
-                    </label>
-                    <p class="setting-help">Log actions but don't actually remove downloads. Useful for testing the first time!</p>
-                </div>
-            </div>
-            
-            <div class="settings-group">
-                <h3>Swaparr Status</h3>
-                <div id="swaparr_status_container">
-                    <div class="button-container" style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
-                        <button type="button" id="reset_swaparr_strikes" style="background-color: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.9em; cursor: pointer;">
-                            <i class="fas fa-trash"></i> Reset
-                        </button>
-                    </div>
-                    <div id="swaparr_status" class="status-display">
-                        <p>Loading Swaparr status...</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Load Swaparr status automatically
-        const resetStrikesBtn = container.querySelector('#reset_swaparr_strikes');
-        const statusContainer = container.querySelector('#swaparr_status');
-        
-        fetch('/api/swaparr/status')
-            .then(response => response.json())
-            .then(data => {
-                let statusHTML = '';
-                
-                // Add stats for each app if available
-                if (data.statistics && Object.keys(data.statistics).length > 0) {
-                    statusHTML += '<ul>';
-                    
-                    for (const [app, stats] of Object.entries(data.statistics)) {
-                        statusHTML += `<li><strong>${app.toUpperCase()}</strong>: `;
-                        if (stats.error) {
-                            statusHTML += `Error: ${stats.error}</li>`;
-                        } else {
-                            statusHTML += `${stats.currently_striked} currently striked, ${stats.removed} removed (${stats.total_tracked} total tracked)</li>`;
-                        }
-                    }
-                    
-                    statusHTML += '</ul>';
-                } else {
-                    statusHTML += '<p>No statistics available yet.</p>';
-                }
-                
-                statusContainer.innerHTML = statusHTML;
-            })
-            .catch(error => {
-                console.error('Error loading Swaparr status:', error);
-                statusContainer.innerHTML = `<p>Error fetching status: ${error.message}</p>`;
-            });
-            
-        // Add event listener for the Reset Strikes button
-        if (resetStrikesBtn) {
-            resetStrikesBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to reset all Swaparr strikes? This will clear the strike history for all apps.')) {
-                    statusContainer.innerHTML = '<p>Resetting strikes...</p>';
-                    
-                    fetch('/api/swaparr/reset', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({})
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            statusContainer.innerHTML = `<p>Success: ${data.message}</p>`;
-                            // Reload status after a short delay
-                            setTimeout(() => {
-                                fetch('/api/swaparr/status')
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        let statusHTML = '';
-                                        if (data.statistics && Object.keys(data.statistics).length > 0) {
-                                            statusHTML += '<ul>';
-                                            for (const [app, stats] of Object.entries(data.statistics)) {
-                                                statusHTML += `<li><strong>${app.toUpperCase()}</strong>: `;
-                                                if (stats.error) {
-                                                    statusHTML += `Error: ${stats.error}</li>`;
-                                                } else {
-                                                    statusHTML += `${stats.currently_striked} currently striked, ${stats.removed} removed (${stats.total_tracked} total tracked)</li>`;
-                                                }
-                                            }
-                                            statusHTML += '</ul>';
-                                        } else {
-                                            statusHTML += '<p>No statistics available yet.</p>';
-                                        }
-                                        statusContainer.innerHTML = statusHTML;
-                                    });
-                            }, 1000);
-                        } else {
-                            statusContainer.innerHTML = `<p>Error: ${data.message}</p>`;
-                        }
-                    })
-                    .catch(error => {
-                        statusContainer.innerHTML = `<p>Error resetting strikes: ${error.message}</p>`;
-                    });
-                }
-            });
-        } else if (!resetStrikesBtn) {
-            console.warn('Could not find #reset_swaparr_strikes to attach listener.');
-        } else {
-             console.warn('huntarrUI or huntarrUI.resetStatefulManagement is not available.');
-        }
-
-        // Add confirmation dialog for local access bypass toggle
-        const localAccessBypassCheckbox = container.querySelector('#local_access_bypass');
-        if (localAccessBypassCheckbox) {
-            // Store original state
-            const originalState = localAccessBypassCheckbox.checked;
-            
-            localAccessBypassCheckbox.addEventListener('change', function() {
-                const newState = this.checked;
-                
-                // Preview the UI changes immediately, but they'll be reverted if user doesn't save
-                if (typeof huntarrUI !== 'undefined' && typeof huntarrUI.updateUIForLocalAccessBypass === 'function') {
-                    huntarrUI.updateUIForLocalAccessBypass(newState);
-                }
-                // Also ensure the main app knows settings have changed if the preview runs
-                if (typeof huntarrUI !== 'undefined' && typeof huntarrUI.markSettingsAsChanged === 'function') {
-                     huntarrUI.markSettingsAsChanged();
-                }
-            });
-        }
-    },
+    // generateWhisparrForm, generateErosForm, generateSwaparrForm removed - apps deleted
 
     // Format date nicely for display
     formatDate: function(date) {
@@ -1162,43 +586,7 @@ const SettingsForms = {
                 settings.sleep_duration = getInputValue('#lidarr_sleep_duration', 900);
                 settings.hourly_cap = getInputValue('#lidarr_hourly_cap', 20);
             } 
-            else if (appType === 'readarr') {
-                settings.hunt_missing_books = getInputValue('#readarr_hunt_missing_books', 1);
-                settings.hunt_upgrade_books = getInputValue('#readarr_hunt_upgrade_books', 0);
-                settings.monitored_only = getInputValue('#readarr_monitored_only', true);
-                settings.skip_future_releases = getInputValue('#readarr_skip_future_releases', true);
-
-                settings.sleep_duration = getInputValue('#readarr_sleep_duration', 900);
-                settings.hourly_cap = getInputValue('#readarr_hourly_cap', 20);
-            } 
-            else if (appType === 'whisparr') {
-                settings.hunt_missing_items = getInputValue('#whisparr_hunt_missing_items', 1);
-                settings.hunt_upgrade_items = getInputValue('#whisparr_hunt_upgrade_items', 0);
-                settings.monitored_only = getInputValue('#whisparr_monitored_only', true);
-                settings.whisparr_version = getInputValue('#whisparr-api-version', 'v3');
-                settings.skip_future_releases = getInputValue('#whisparr_skip_future_releases', true);
-
-                settings.sleep_duration = getInputValue('#whisparr_sleep_duration', 900);
-                settings.hourly_cap = getInputValue('#whisparr_hourly_cap', 20);
-            }
-            else if (appType === 'eros') {
-                settings.search_mode = getInputValue('#eros_search_mode', 'movie');
-                settings.hunt_missing_items = getInputValue('#eros_hunt_missing_items', 1);
-                settings.hunt_upgrade_items = getInputValue('#eros_hunt_upgrade_items', 0);
-                settings.monitored_only = getInputValue('#eros_monitored_only', true);
-                settings.skip_future_releases = getInputValue('#eros_skip_future_releases', true);
-
-                settings.sleep_duration = getInputValue('#eros_sleep_duration', 900);
-                settings.hourly_cap = getInputValue('#eros_hourly_cap', 20);
-            }
-            else if (appType === 'swaparr') {
-                settings.enabled = getInputValue('#swaparr_enabled', false);
-                settings.max_strikes = getInputValue('#swaparr_max_strikes', 3);
-                settings.max_download_time = getInputValue('#swaparr_max_download_time', '2h');
-                settings.ignore_above_size = getInputValue('#swaparr_ignore_above_size', '25GB');
-                settings.remove_from_client = getInputValue('#swaparr_remove_from_client', true);
-                settings.dry_run = getInputValue('#swaparr_dry_run', false);
-            }
+            // readarr, whisparr, eros, swaparr settings removed - apps deleted
         }
         
         console.log('Collected settings for', appType, settings);
@@ -1219,7 +607,7 @@ const SettingsForms = {
                         <input type="checkbox" id="check_for_updates" ${settings.check_for_updates !== false ? 'checked' : ''}>
                         <span class="toggle-slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#3d4353; border-radius:20px; transition:0.4s;"></span>
                     </label>
-                    <p class="setting-help" style="margin-left: -3ch !important;">Automatically check for Huntarr updates</p>
+                    <p class="setting-help" style="margin-left: -3ch !important;">Automatically check for KYHUNTARR updates</p>
                 </div>
                 <div class="setting-item">
                     <label for="debug_mode"><span class="info-icon" title="Enable verbose logging for troubleshooting"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Debug Mode:</label>
@@ -1319,7 +707,7 @@ const SettingsForms = {
                 <div class="setting-item">
                     <label for="log_refresh_interval_seconds"><span class="info-icon" title="Seconds between log display refreshes in the UI"><i class="fas fa-info-circle"></i></span>&nbsp;&nbsp;&nbsp;Log Refresh Interval:</label>
                     <input type="number" id="log_refresh_interval_seconds" min="5" value="${settings.log_refresh_interval_seconds !== undefined ? settings.log_refresh_interval_seconds : 30}">
-                    <p class="setting-help" style="margin-left: -3ch !important;">How often Huntarr refreshes logs from apps (seconds)</p>
+                    <p class="setting-help" style="margin-left: -3ch !important;">How often KYHUNTARR refreshes logs from apps (seconds)</p>
                 </div>
             </div>
         `;
@@ -1340,9 +728,9 @@ const SettingsForms = {
         const createdDateEl = document.getElementById('stateful_initial_state');
         const expiresDateEl = document.getElementById('stateful_expires_date');
 
-        // Skip loading if huntarrUI has already loaded this data to prevent flashing
-        if (window.huntarrUI && window.huntarrUI._cachedStatefulData) {
-            console.log('[SettingsForms] Using existing huntarrUI cached stateful data');
+        // Skip loading if kyhuntarrUI has already loaded this data to prevent flashing
+        if (window.kyhuntarrUI && window.kyhuntarrUI._cachedStatefulData) {
+            console.log('[SettingsForms] Using existing kyhuntarrUI cached stateful data');
             return; // Exit early - main.js already has this covered
         }
         
@@ -1355,7 +743,7 @@ const SettingsForms = {
         }
 
         // Check if data is already cached in localStorage
-        const cachedStatefulData = localStorage.getItem('huntarr-stateful-data');
+        const cachedStatefulData = localStorage.getItem('kyhuntarr-stateful-data');
         if (cachedStatefulData) {
             try {
                 const parsedData = JSON.parse(cachedStatefulData);
@@ -1400,7 +788,7 @@ const SettingsForms = {
              })
             .then(data => {
                 // Cache the response with a timestamp for future use
-                localStorage.setItem('huntarr-stateful-data', JSON.stringify({
+                localStorage.setItem('kyhuntarr-stateful-data', JSON.stringify({
                     ...data,
                     timestamp: Date.now()
                 }));
@@ -1424,8 +812,8 @@ const SettingsForms = {
                 }
                 
                 // Store data for other components to use
-                if (window.huntarrUI) {
-                    window.huntarrUI._cachedStatefulData = data;
+                if (window.kyhuntarrUI) {
+                    window.kyhuntarrUI._cachedStatefulData = data;
                 }
             })
             .catch(error => {
@@ -1472,13 +860,13 @@ const SettingsForms = {
                 .then(response => response.ok ? response.json() : null)
                 .then(data => {
                     if (data && data.success) {
-                        localStorage.setItem('huntarr-stateful-data', JSON.stringify({
+                        localStorage.setItem('kyhuntarr-stateful-data', JSON.stringify({
                             ...data,
                             timestamp: Date.now()
                         }));
                         
-                        if (window.huntarrUI) {
-                            window.huntarrUI._cachedStatefulData = data;
+                        if (window.kyhuntarrUI) {
+                            window.kyhuntarrUI._cachedStatefulData = data;
                         }
                     }
                 })
@@ -1510,8 +898,7 @@ const SettingsForms = {
         updateSleepDisplay('sleep_duration', 'sleep_duration_hours');
         updateSleepDisplay('radarr_sleep_duration', 'radarr_sleep_duration_hours');
         updateSleepDisplay('lidarr_sleep_duration', 'lidarr_sleep_duration_hours');
-        updateSleepDisplay('readarr_sleep_duration', 'readarr_sleep_duration_hours');
-        updateSleepDisplay('whisparr_sleep_duration', 'whisparr_sleep_duration_hours'); // Added Whisparr
+
     },
     
     // Setup instance management - test connection buttons and add/remove instance buttons
@@ -1814,8 +1201,8 @@ const SettingsForms = {
     // Test connection to an *arr API
     testConnection: function(app, url, apiKey, buttonElement) {
         // Temporarily suppress change detection to prevent the unsaved changes dialog
-        if (window.huntarrUI && window.huntarrUI.suppressUnsavedChangesCheck) {
-            window.huntarrUI.suppressUnsavedChangesCheck = true;
+        if (window.kyhuntarrUI && window.kyhuntarrUI.suppressUnsavedChangesCheck) {
+            window.kyhuntarrUI.suppressUnsavedChangesCheck = true;
         }
         
         // Also set a global flag used by the apps module
@@ -1929,8 +1316,8 @@ const SettingsForms = {
     // Helper method to reset unsaved changes suppression flags
     _resetSuppressionFlags: function() {
         // Reset all suppression flags
-        if (window.huntarrUI) {
-            window.huntarrUI.suppressUnsavedChangesCheck = false;
+        if (window.kyhuntarrUI) {
+            window.kyhuntarrUI.suppressUnsavedChangesCheck = false;
         }
         window._suppressUnsavedChangesDialog = false;
     },
@@ -1940,7 +1327,7 @@ const SettingsForms = {
 const styleEl = document.createElement('style');
 styleEl.innerHTML = `
     .toggle-switch input:checked + .toggle-slider {
-        background-color: #50762E !important;
+        background-color: #9b59b6 !important;
     }
     .toggle-slider:before {
         position: absolute;

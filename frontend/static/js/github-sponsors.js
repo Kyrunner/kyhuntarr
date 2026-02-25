@@ -5,7 +5,7 @@
 
 const GithubSponsors = {
     // Constants
-    sponsorsUsername: 'plexguide',
+    sponsorsUsername: 'Kyrunner',
     sponsorsApiUrl: 'https://api.github.com/sponsors/',
     cacheDuration: 3600000, // 1 hour in milliseconds
     
@@ -111,7 +111,7 @@ const GithubSponsors = {
     
     // Get cached sponsors data
     getCachedSponsors: function() {
-        const cachedData = localStorage.getItem('huntarr-github-sponsors');
+        const cachedData = localStorage.getItem('kyhuntarr-github-sponsors');
         
         if (!cachedData) {
             return null;
@@ -140,7 +140,7 @@ const GithubSponsors = {
             timestamp: Date.now()
         };
         
-        localStorage.setItem('huntarr-github-sponsors', JSON.stringify(data));
+        localStorage.setItem('kyhuntarr-github-sponsors', JSON.stringify(data));
         console.log('Cached sponsors data');
     },
     

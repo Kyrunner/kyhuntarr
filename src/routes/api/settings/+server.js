@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import fs from 'fs';
 import path from 'path';
 
-const CONFIG_FILE = path.resolve('huntarr.json');
+const CONFIG_FILE = path.resolve('kyhuntarr.json');
 
 // Helper to read config
 function readConfig() {

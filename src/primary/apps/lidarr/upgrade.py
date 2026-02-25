@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Lidarr cutoff upgrade processing module for Huntarr
+Lidarr cutoff upgrade processing module for KYHUNTARR
 Handles albums that do not meet the configured quality cutoff.
 """
 

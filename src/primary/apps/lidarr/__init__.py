@@ -1,5 +1,5 @@
 """
-Lidarr app module for Huntarr
+Lidarr app module for KYHUNTARR
 Contains functionality for missing albums and quality upgrades in Lidarr
 """
 

@@ -1,5 +1,5 @@
 /**
- * Huntarr - User Settings Page
+ * KYHUNTARR - User Settings Page
  * Handles user profile management functionality
  */
 

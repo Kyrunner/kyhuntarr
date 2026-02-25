@@ -1,5 +1,5 @@
 """
-Huntarr - Find Missing & Upgrade Media Items
+KYHUNTARR - Find Missing & Upgrade Media Items
 A unified tool for Sonarr, Radarr, Lidarr, and Readarr
 """
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Keys manager for Huntarr
-Handles storage and retrieval of API keys and URLs from huntarr.json
+Keys manager for KYHUNTARR
+Handles storage and retrieval of API keys and URLs from kyhuntarr.json
 """
 
 import os
@@ -18,7 +18,7 @@ keys_logger = logging.getLogger("keys_manager")
 SETTINGS_DIR = pathlib.Path("/config")
 SETTINGS_DIR.mkdir(parents=True, exist_ok=True)
 
-SETTINGS_FILE = SETTINGS_DIR / "huntarr.json"
+SETTINGS_FILE = SETTINGS_DIR / "kyhuntarr.json"
 
 # Removed save_api_keys function
 

@@ -52,7 +52,7 @@
     });
     
     // Process nested objects
-    ['sonarr', 'radarr', 'lidarr', 'readarr', 'huntarr', 'advanced'].forEach(section => {
+    ['sonarr', 'radarr', 'lidarr', 'kyhuntarr', 'advanced'].forEach(section => {
       if (result[section]) {
         numericFields.forEach(field => {
           if (result[section][field] !== undefined) {

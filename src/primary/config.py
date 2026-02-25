@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Configuration module for Huntarr
+Configuration module for KYHUNTARR
 Provides utility functions to access settings via settings_manager
 and perform configuration-related tasks like logging.
 Removes the old concept of loading a single app's config into global constants.
@@ -11,14 +11,15 @@ import sys
 import logging
 import traceback
 from src.primary import settings_manager
-from src.primary.utils.logger import logger, get_logger # Import get_logger
+from src.primary.utils.logger import logger, get_logger  # Import get_logger
 
 # Removed global constants like APP_TYPE, API_URL, API_KEY, SLEEP_DURATION etc.
 # Settings should be fetched directly using settings_manager when needed.
 
 # Enable debug logging across the application
 # Set to True for detailed logs, False for production
-DEBUG_MODE = False # Changed default to False
+DEBUG_MODE = False  # Changed default to False
+
 
 # Add a function to get the debug mode from settings
 def get_debug_mode():
@@ -27,6 +28,7 @@ def get_debug_mode():
         return settings_manager.get_setting("general", "debug_mode", False)
     except Exception:
         return False
+
 
 # Determine the hunt mode for a specific app
 def determine_hunt_mode(app_name: str) -> str:
@@ -41,17 +43,16 @@ def determine_hunt_mode(app_name: str) -> str:
     elif app_name == "radarr":
         hunt_missing = settings_manager.get_setting(app_name, "hunt_missing_movies", 0)
         hunt_upgrade = settings_manager.get_setting(app_name, "hunt_upgrade_movies", 0)
-    elif app_name.lower() == 'lidarr':
+    elif app_name.lower() == "lidarr":
         # Use hunt_missing_items instead of hunt_missing_albums
         hunt_missing = settings_manager.get_setting(app_name, "hunt_missing_items", 0)
         # Use hunt_upgrade_items instead of hunt_upgrade_albums
-        hunt_upgrade = settings_manager.get_setting(app_name, "hunt_upgrade_items", 0) 
-        
+        hunt_upgrade = settings_manager.get_setting(app_name, "hunt_upgrade_items", 0)
+
         # For Lidarr, also include the hunt_missing_mode
-        hunt_missing_mode = settings_manager.get_setting(app_name, "hunt_missing_mode", "artist")
-    elif app_name == "readarr":
-        hunt_missing = settings_manager.get_setting(app_name, "hunt_missing_books", 0)
-        hunt_upgrade = settings_manager.get_setting(app_name, "hunt_upgrade_books", 0)
+        hunt_missing_mode = settings_manager.get_setting(
+            app_name, "hunt_missing_mode", "artist"
+        )
     else:
         # Handle unknown app types if necessary, or just return disabled
         return "disabled"
@@ -66,18 +67,19 @@ def determine_hunt_mode(app_name: str) -> str:
     else:
         return "disabled"
 
+
 # Configure logging level based on an app's debug setting
 def configure_logging(app_name: str = None):
     """Configure logging level based on the debug setting of a specific app or globally."""
     try:
         debug_mode = get_debug_mode()
-        log_instance = logger # Default to the main logger
+        log_instance = logger  # Default to the main logger
 
         if app_name:
             debug_mode = settings_manager.get_setting(app_name, "debug_mode", False)
-            log_instance = get_logger(app_name) # Get the specific app logger
+            log_instance = get_logger(app_name)  # Get the specific app logger
         # else: # Optional: Could check a global debug setting if needed
-            # debug_mode = settings_manager.get_setting("global", "debug_mode", False)
+        # debug_mode = settings_manager.get_setting("global", "debug_mode", False)
 
         level = logging.DEBUG if debug_mode else logging.INFO
 
@@ -99,7 +101,10 @@ def configure_logging(app_name: str = None):
         #     handler.setLevel(level)
 
     except Exception as e:
-        print(f"CRITICAL ERROR in configure_logging for app '{app_name}': {str(e)}", file=sys.stderr)
+        print(
+            f"CRITICAL ERROR in configure_logging for app '{app_name}': {str(e)}",
+            file=sys.stderr,
+        )
         print(f"Traceback: {traceback.format_exc()}", file=sys.stderr)
         # Try to log it anyway
         if logger:
@@ -108,14 +113,17 @@ def configure_logging(app_name: str = None):
         # Decide whether to raise or continue
         # raise
 
+
 # Log the configuration for a specific app
 def log_configuration(app_name: str):
     """Log the current configuration settings for a specific app."""
-    log = get_logger(app_name) # Use the specific app's logger
-    settings = settings_manager.load_settings(app_name) # Corrected function name
+    log = get_logger(app_name)  # Use the specific app's logger
+    settings = settings_manager.load_settings(app_name)  # Corrected function name
 
     if not settings:
-        log.error(f"Could not load settings for app: {app_name}. Cannot log configuration.")
+        log.error(
+            f"Could not load settings for app: {app_name}. Cannot log configuration."
+        )
         return
 
     api_url = settings.get("api_url", "")
@@ -123,7 +131,9 @@ def log_configuration(app_name: str):
     debug_mode = settings.get("debug_mode", False)
     sleep_duration = settings.get("sleep_duration", 900)
     # Get state reset interval
-    state_reset_interval = settings_manager.get_advanced_setting("stateful_management_hours", 168)
+    state_reset_interval = settings_manager.get_advanced_setting(
+        "stateful_management_hours", 168
+    )
     monitored_only = settings.get("monitored_only", True)
     min_queue_size = settings.get("minimum_download_queue_size", -1)
 
@@ -133,7 +143,9 @@ def log_configuration(app_name: str):
     log.info(f"Sleep Duration: {sleep_duration} seconds")
     log.info(f"State Reset Interval: {state_reset_interval} hours")
     log.info(f"Monitored Only: {monitored_only}")
-    log.info(f"Maximum Download Queue Size: {settings.get('minimum_download_queue_size', -1)}")
+    log.info(
+        f"Maximum Download Queue Size: {settings.get('minimum_download_queue_size', -1)}"
+    )
 
     # App-specific settings logging
     if app_name == "sonarr":
@@ -146,21 +158,19 @@ def log_configuration(app_name: str):
         log.info(f"Hunt Upgrade Movies: {settings.get('hunt_upgrade_movies', 0)}")
         log.info(f"Skip Future Releases: {settings.get('skip_future_releases', True)}")
         log.info(f"Skip Movie Refresh: {settings.get('skip_movie_refresh', False)}")
-    elif app_name.lower() == 'lidarr':
+    elif app_name.lower() == "lidarr":
         log.info(f"Mode: {settings.get('hunt_missing_mode', 'artist')}")
         log.info(f"Hunt Missing Items: {settings.get('hunt_missing_items', 0)}")
         # Use hunt_upgrade_items
-        log.info(f"Hunt Upgrade Items: {settings.get('hunt_upgrade_items', 0)}") 
+        log.info(f"Hunt Upgrade Items: {settings.get('hunt_upgrade_items', 0)}")
         log.info(f"Sleep Duration: {settings.get('sleep_duration', 900)} seconds")
         log.info(f"State Reset Interval: {state_reset_interval} hours")
         log.info(f"Monitored Only: {settings.get('monitored_only', True)}")
-        log.info(f"Maximum Download Queue Size: {settings.get('minimum_download_queue_size', -1)}")
-    elif app_name == "readarr":
-        log.info(f"Hunt Missing Books: {settings.get('hunt_missing_books', 0)}")
-        log.info(f"Hunt Upgrade Books: {settings.get('hunt_upgrade_books', 0)}")
-        log.info(f"Skip Future Releases: {settings.get('skip_future_releases', True)}")
-        log.info(f"Skip Author Refresh: {settings.get('skip_author_refresh', False)}")
+        log.info(
+            f"Maximum Download Queue Size: {settings.get('minimum_download_queue_size', -1)}"
+        )
     log.info(f"--- End Configuration for {app_name} ---")
+
 
 # Removed refresh_settings function - settings are loaded dynamically by settings_manager
 

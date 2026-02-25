@@ -186,101 +186,7 @@
                         </div>
                     </div>
                     
-                    <!-- Readarr Card -->
-                    <div class="app-stats-card readarr">
-                        <div class="status-container">
-                            <span id="readarrHomeStatus" class="status-badge loading"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
-                        </div>
-                        <div class="hourly-cap-container">
-                            <div class="hourly-cap-status" id="readarr-hourly-cap">
-                                    <span class="hourly-cap-icon" id="readarr-cap-icon"></span>
-                                    <span class="hourly-cap-text">API: <span id="readarr-api-count">0</span> / <span id="readarr-api-limit">20</span></span>
-                                </div>
-                        </div>
-                        <div class="app-content">
-                            <div class="app-icon-wrapper">
-                                <img src="/static/arrs/48-readarr.png" alt="Readarr Logo" class="app-logo">
-                            </div>
-                            <h4>Readarr</h4>
-                        </div>
-                        <div class="stats-numbers">
-                            <div class="stat-box">
-                                <span class="stat-number" id="readarr-hunted">0</span>
-                                <span class="stat-label">Searches Triggered</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-number" id="readarr-upgraded">0</span>
-                                <span class="stat-label">Upgrades Triggered</span>
-                            </div>
-                        </div>
-                        <div class="reset-button-container">
-                            <button class="cycle-reset-button" data-app="readarr"><i class="fas fa-sync-alt"></i> Reset Cycle</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Whisparr Card -->
-                    <div class="app-stats-card whisparr">
-                        <div class="status-container">
-                            <span id="whisparrHomeStatus" class="status-badge loading"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
-                        </div>
-                        <div class="hourly-cap-container">
-                            <div class="hourly-cap-status" id="whisparr-hourly-cap">
-                                    <span class="hourly-cap-icon" id="whisparr-cap-icon"></span>
-                                    <span class="hourly-cap-text">API: <span id="whisparr-api-count">0</span> / <span id="whisparr-api-limit">20</span></span>
-                                </div>
-                        </div>
-                        <div class="app-content">
-                            <div class="app-icon-wrapper">
-                                <img src="/static/arrs/48-whisparr.png" alt="Whisparr V2 Logo" class="app-logo">
-                            </div>
-                            <h4>Whisparr V2</h4>
-                        </div>
-                        <div class="stats-numbers">
-                            <div class="stat-box">
-                                <span class="stat-number" id="whisparr-hunted">0</span>
-                                <span class="stat-label">Searches Triggered</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-number" id="whisparr-upgraded">0</span>
-                                <span class="stat-label">Upgrades Triggered</span>
-                            </div>
-                        </div>
-                        <div class="reset-button-container">
-                            <button class="cycle-reset-button" data-app="whisparr"><i class="fas fa-sync-alt"></i> Reset Cycle</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Eros Card -->
-                    <div class="app-stats-card eros">
-                        <div class="status-container">
-                            <span id="erosHomeStatus" class="status-badge loading"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
-                        </div>
-                        <div class="hourly-cap-container">
-                            <div class="hourly-cap-status" id="eros-hourly-cap">
-                                    <span class="hourly-cap-icon" id="eros-cap-icon"></span>
-                                    <span class="hourly-cap-text">API: <span id="eros-api-count">0</span> / <span id="eros-api-limit">20</span></span>
-                                </div>
-                        </div>
-                        <div class="app-content">
-                            <div class="app-icon-wrapper">
-                                <img src="/static/arrs/48-whisparr.png" alt="Whisparr V3 Logo" class="app-logo">
-                            </div>
-                            <h4>Whisparr V3</h4>
-                        </div>
-                        <div class="stats-numbers">
-                            <div class="stat-box">
-                                <span class="stat-number" id="eros-hunted">0</span>
-                                <span class="stat-label">Searches Triggered</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-number" id="eros-upgraded">0</span>
-                                <span class="stat-label">Upgrades Triggered</span>
-                            </div>
-                        </div>
-                        <div class="reset-button-container">
-                            <button class="cycle-reset-button" data-app="eros"><i class="fas fa-sync-alt"></i> Reset Cycle</button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -590,38 +496,6 @@
         box-shadow: 0 0 20px rgba(49, 197, 56, 0.3);
     }
     
-    /* Readarr red glowing rings */
-    .app-stats-card.readarr .app-icon-wrapper::before {
-        border-color: rgba(192, 45, 40, 0.8);
-        box-shadow: 0 0 15px rgba(192, 45, 40, 0.6);
-    }
-    
-    .app-stats-card.readarr .app-icon-wrapper::after {
-        border-color: rgba(192, 45, 40, 0.4);
-        box-shadow: 0 0 20px rgba(192, 45, 40, 0.3);
-    }
-    
-    /* Whisparr purple glowing rings */
-    .app-stats-card.whisparr .app-icon-wrapper::before {
-        border-color: rgba(195, 0, 230, 0.8);
-        box-shadow: 0 0 15px rgba(195, 0, 230, 0.6);
-    }
-    
-    .app-stats-card.whisparr .app-icon-wrapper::after {
-        border-color: rgba(195, 0, 230, 0.4);
-        box-shadow: 0 0 20px rgba(195, 0, 230, 0.3);
-    }
-    
-    /* Eros purple glowing rings (same as Whisparr) */
-    .app-stats-card.eros .app-icon-wrapper::before {
-        border-color: rgba(195, 0, 230, 0.8);
-        box-shadow: 0 0 15px rgba(195, 0, 230, 0.6);
-    }
-    
-    .app-stats-card.eros .app-icon-wrapper::after {
-        border-color: rgba(195, 0, 230, 0.4);
-        box-shadow: 0 0 20px rgba(195, 0, 230, 0.3);
-    }
     
     .app-logo {
         width: 40px;
@@ -687,26 +561,6 @@
         -webkit-text-fill-color: transparent;
     }
     
-    .app-stats-card.readarr .stat-number {
-        background: linear-gradient(to bottom right, #e35751, #c02d28);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    .app-stats-card.whisparr .stat-number {
-        background: linear-gradient(to bottom right, #e64dff, #c300e6);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    .app-stats-card.eros .stat-number {
-        background: linear-gradient(to bottom right, #e64dff, #c300e6);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
     
     .stat-label {
         font-size: 11px;
@@ -735,23 +589,7 @@
         box-shadow: 0 0 15px rgba(49, 197, 56, 0.2);
     }
     
-    /* App-specific accent colors for readarr */
-    .app-stats-card.readarr .app-icon-wrapper {
-        border-color: rgba(192, 45, 40, 0.5);
-        box-shadow: 0 0 15px rgba(192, 45, 40, 0.2);
-    }
-    
-    /* App-specific accent colors for whisparr */
-    .app-stats-card.whisparr .app-icon-wrapper {
-        border-color: rgba(195, 0, 230, 0.5);
-        box-shadow: 0 0 15px rgba(195, 0, 230, 0.2);
-    }
-    
-    /* App-specific accent colors for eros */
-    .app-stats-card.eros .app-icon-wrapper {
-        border-color: rgba(195, 0, 230, 0.5);
-        box-shadow: 0 0 15px rgba(195, 0, 230, 0.2);
-    }
+
     
     /* Status badge colors */
     .status-badge.connected {
@@ -938,13 +776,7 @@
         background: radial-gradient(circle at 50% 10%, rgba(49, 197, 56, 0.08), transparent 70%);
     }
 
-    .app-stats-card.readarr::after {
-        background: radial-gradient(circle at 50% 10%, rgba(192, 45, 40, 0.08), transparent 70%);
-    }
 
-    .app-stats-card.whisparr::after, .app-stats-card.eros::after {
-        background: radial-gradient(circle at 50% 10%, rgba(195, 0, 230, 0.08), transparent 70%);
-    }
 
     /* Ensure button in header doesn't inherit odd margins and adjust padding */
     .card-header .action-button {

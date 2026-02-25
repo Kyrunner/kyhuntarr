@@ -7,83 +7,81 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="/static/css/apps-double-scroll-fix.css">
 <link rel="stylesheet" href="/static/css/responsive-fix.css">
-<!-- ElfHosted brand overrides - must be last to win specificity -->
+<!-- KYHUNTARR brand overrides - must be last to win specificity -->
 <link rel="stylesheet" href="/static/css/variables.css">
 <style>
     /* Hide sponsors section and nav - upstream project abandoned */
     #sponsorsSection, #sponsorsNav { display: none !important; }
-    /* Disable dead upstream help links */
-    a.info-icon[href*="huntarr.io"] { pointer-events: none; }
 
-    /* === ElfHosted green accent overrides for hardcoded blues === */
+    /* === KYHUNTARR purple accent overrides === */
 
     /* --- Navigation --- */
     .nav-item.active {
-        background: linear-gradient(to right, rgba(80, 118, 46, 0.9), rgba(80, 118, 46, 0.7)) !important;
-        box-shadow: 0 2px 10px rgba(80, 118, 46, 0.3) !important;
+        background: linear-gradient(to right, rgba(155, 89, 182, 0.9), rgba(155, 89, 182, 0.7)) !important;
+        box-shadow: 0 2px 10px rgba(155, 89, 182, 0.3) !important;
     }
     .nav-item.active .nav-icon-wrapper {
         background: rgba(255, 255, 255, 0.15) !important;
     }
     .nav-item:hover {
-        background: rgba(80, 118, 46, 0.15) !important;
+        background: rgba(155, 89, 182, 0.15) !important;
     }
     .nav-item:hover .nav-icon-wrapper {
-        background: rgba(80, 118, 46, 0.2) !important;
+        background: rgba(155, 89, 182, 0.2) !important;
     }
     .nav-item:hover::before {
-        background: linear-gradient(to bottom, rgba(80, 118, 46, 0.4), rgba(141, 158, 64, 0.4)) !important;
+        background: linear-gradient(to bottom, rgba(155, 89, 182, 0.4), rgba(187, 134, 252, 0.4)) !important;
     }
     .nav-group-title {
-        color: rgba(141, 158, 64, 0.8) !important;
-        border-bottom-color: rgba(80, 118, 46, 0.2) !important;
-        text-shadow: 0 0 10px rgba(80, 118, 46, 0.3) !important;
+        color: rgba(187, 134, 252, 0.8) !important;
+        border-bottom-color: rgba(155, 89, 182, 0.2) !important;
+        text-shadow: 0 0 10px rgba(155, 89, 182, 0.3) !important;
     }
     @keyframes glowPulse {
-        from { box-shadow: 0 0 8px 2px rgba(80, 118, 46, 0.5); }
-        to   { box-shadow: 0 0 15px 4px rgba(80, 118, 46, 0.7); }
+        from { box-shadow: 0 0 8px 2px rgba(155, 89, 182, 0.5); }
+        to   { box-shadow: 0 0 15px 4px rgba(155, 89, 182, 0.7); }
     }
 
     /* --- Gradient accent lines (topbar, sidebar, cards) --- */
     .top-color-line,
     .sidebar-top-line {
-        background: linear-gradient(90deg, rgba(80, 118, 46, 0.6), rgba(141, 158, 64, 0.6)) !important;
-        box-shadow: 0 0 8px rgba(80, 118, 46, 0.4) !important;
+        background: linear-gradient(90deg, rgba(155, 89, 182, 0.6), rgba(187, 134, 252, 0.6)) !important;
+        box-shadow: 0 0 8px rgba(155, 89, 182, 0.4) !important;
     }
     .top-bar::before,
     .top-bar::after,
     .sidebar::after,
     .sidebar::before {
-        background: linear-gradient(to bottom, rgba(80, 118, 46, 0.6), rgba(141, 158, 64, 0.6)) !important;
+        background: linear-gradient(to bottom, rgba(155, 89, 182, 0.6), rgba(187, 134, 252, 0.6)) !important;
     }
     .card::before {
-        background: linear-gradient(90deg, rgba(80, 118, 46, 0.3), rgba(141, 158, 64, 0.3)) !important;
+        background: linear-gradient(90deg, rgba(155, 89, 182, 0.3), rgba(187, 134, 252, 0.3)) !important;
     }
 
     /* --- Version bar --- */
     .version-bar a, .version-icon {
-        color: #8D9E40 !important;
+        color: #bb86fc !important;
     }
     .version-bar a:hover {
-        color: #a8b84d !important;
+        color: #d4a5ff !important;
     }
     .version-bar a::after {
-        background-color: #8D9E40 !important;
+        background-color: #bb86fc !important;
     }
 
     /* --- Logo glow --- */
     .logo, .login-logo {
-        animation: logo-glow-green 10s infinite ease-in-out !important;
+        animation: logo-glow-purple 10s infinite ease-in-out !important;
     }
-    @keyframes logo-glow-green {
-        0%   { box-shadow: 0 0 15px #50762E, 0 0 5px rgba(80, 118, 46, 0.4); }
-        25%  { box-shadow: 0 0 15px #8D9E40, 0 0 5px rgba(141, 158, 64, 0.4); }
-        50%  { box-shadow: 0 0 15px #36511F, 0 0 5px rgba(54, 81, 31, 0.4); }
-        75%  { box-shadow: 0 0 15px #8D9E40, 0 0 5px rgba(141, 158, 64, 0.4); }
-        100% { box-shadow: 0 0 15px #50762E, 0 0 5px rgba(80, 118, 46, 0.4); }
+    @keyframes logo-glow-purple {
+        0%   { box-shadow: 0 0 15px #9b59b6, 0 0 5px rgba(155, 89, 182, 0.4); }
+        25%  { box-shadow: 0 0 15px #bb86fc, 0 0 5px rgba(187, 134, 252, 0.4); }
+        50%  { box-shadow: 0 0 15px #7b3f96, 0 0 5px rgba(123, 63, 150, 0.4); }
+        75%  { box-shadow: 0 0 15px #bb86fc, 0 0 5px rgba(187, 134, 252, 0.4); }
+        100% { box-shadow: 0 0 15px #9b59b6, 0 0 5px rgba(155, 89, 182, 0.4); }
     }
     .logo i, .login-logo i {
-        filter: drop-shadow(0 0 4px rgba(80, 118, 46, 0.5)) !important;
+        filter: drop-shadow(0 0 4px rgba(155, 89, 182, 0.5)) !important;
     }
 
     /* --- Buttons (schedule, save, action, login, setup) --- */
@@ -92,44 +90,44 @@
     #saveSchedulesButton,
     button.save-button,
     button.action-button {
-        background-color: #50762E !important;
+        background-color: #9b59b6 !important;
     }
     .schedule-button:hover,
     #addScheduleButton:hover,
     #saveSchedulesButton:hover,
     button.save-button:hover,
     button.action-button:hover {
-        background-color: #36511F !important;
+        background-color: #7b3f96 !important;
     }
     .login-button,
     .next-button,
     .submit-button,
     .step.active {
-        background: linear-gradient(135deg, #50762E 0%, #6a8e3a 100%) !important;
-        box-shadow: 0 4px 10px rgba(80, 118, 46, 0.3) !important;
+        background: linear-gradient(135deg, #9b59b6 0%, #a56ec0 100%) !important;
+        box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3) !important;
     }
     .login-button:hover,
     .next-button:hover,
     .submit-button:hover,
     .step.active:hover {
-        background: linear-gradient(135deg, #6a8e3a 0%, #8D9E40 100%) !important;
-        box-shadow: 0 6px 15px rgba(80, 118, 46, 0.4) !important;
+        background: linear-gradient(135deg, #a56ec0 0%, #bb86fc 100%) !important;
+        box-shadow: 0 6px 15px rgba(155, 89, 182, 0.4) !important;
     }
 
     /* --- Test connection button --- */
     .test-connection-btn {
-        background: linear-gradient(145deg, rgba(80, 118, 46, 0.2), rgba(80, 118, 46, 0.15)) !important;
-        color: rgba(141, 158, 64, 0.9) !important;
-        border: 1px solid rgba(80, 118, 46, 0.3) !important;
+        background: linear-gradient(145deg, rgba(155, 89, 182, 0.2), rgba(155, 89, 182, 0.15)) !important;
+        color: rgba(187, 134, 252, 0.9) !important;
+        border: 1px solid rgba(155, 89, 182, 0.3) !important;
     }
     .test-connection-btn:hover {
-        background: linear-gradient(145deg, rgba(80, 118, 46, 0.3), rgba(80, 118, 46, 0.25)) !important;
-        color: rgba(141, 158, 64, 1) !important;
+        background: linear-gradient(145deg, rgba(155, 89, 182, 0.3), rgba(155, 89, 182, 0.25)) !important;
+        color: rgba(187, 134, 252, 1) !important;
     }
 
     /* --- Toggle switches --- */
     input:checked + .toggle-slider {
-        background: linear-gradient(145deg, rgba(54, 81, 31, 0.7), rgba(80, 118, 46, 0.8)) !important;
+        background: linear-gradient(145deg, rgba(123, 63, 150, 0.7), rgba(155, 89, 182, 0.8)) !important;
     }
 
     /* --- Form controls & settings inputs --- */
@@ -138,102 +136,102 @@
     .setting-item input[type="number"]:focus,
     .setting-item input[type="password"]:focus,
     .setting-item select:focus {
-        border-color: rgba(80, 118, 46, 0.5) !important;
-        box-shadow: 0 0 0 3px rgba(80, 118, 46, 0.15), 0 1px 0 rgba(255, 255, 255, 0.1) inset !important;
+        border-color: rgba(155, 89, 182, 0.5) !important;
+        box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.15), 0 1px 0 rgba(255, 255, 255, 0.1) inset !important;
     }
     .form-group label i {
-        color: rgba(80, 118, 46, 0.9) !important;
+        color: rgba(155, 89, 182, 0.9) !important;
     }
     .scheduler-panel .form-control,
     #schedulingSection .form-control,
     #schedulingPage .form-control {
-        border-color: rgba(80, 118, 46, 0.3) !important;
+        border-color: rgba(155, 89, 182, 0.3) !important;
     }
     .scheduler-panel .form-control:focus,
     #schedulingSection .form-control:focus,
     #schedulingPage .form-control:focus {
-        border-color: rgba(80, 118, 46, 0.8) !important;
-        box-shadow: 0 0 0 2px rgba(80, 118, 46, 0.2) !important;
+        border-color: rgba(155, 89, 182, 0.8) !important;
+        box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2) !important;
     }
 
     /* --- Checkboxes --- */
     .day-checkbox input[type='checkbox'] {
-        border-color: rgba(80, 118, 46, 0.3) !important;
+        border-color: rgba(155, 89, 182, 0.3) !important;
     }
     .day-checkbox input[type='checkbox']:checked {
-        background-color: #50762E !important;
-        border-color: #50762E !important;
+        background-color: #9b59b6 !important;
+        border-color: #9b59b6 !important;
     }
 
     /* --- Instance header icon --- */
     .instance-header h4::before {
-        color: rgba(80, 118, 46, 0.8) !important;
+        color: rgba(155, 89, 182, 0.8) !important;
     }
 
-    /* --- Settings-group section headers (e.g. "Sonarr Instances") --- */
+    /* --- Settings-group section headers --- */
     .settings-group h3 {
-        background: linear-gradient(to right, rgba(80, 118, 46, 0.8), rgba(54, 81, 31, 0.7)) !important;
-        border-left: 4px solid rgba(80, 118, 46, 0.9) !important;
+        background: linear-gradient(to right, rgba(155, 89, 182, 0.8), rgba(123, 63, 150, 0.7)) !important;
+        border-left: 4px solid rgba(155, 89, 182, 0.9) !important;
     }
 
     /* --- Card & settings-group accent lines --- */
     .card h2 i, .card h3 i {
-        color: #8D9E40 !important;
+        color: #bb86fc !important;
     }
     .card::before,
     #appsSection .settings-group::before {
-        background: linear-gradient(90deg, rgba(80, 118, 46, 0.3), rgba(141, 158, 64, 0.3)) !important;
+        background: linear-gradient(90deg, rgba(155, 89, 182, 0.3), rgba(187, 134, 252, 0.3)) !important;
     }
 
     /* --- Info icons --- */
     .setting-item label .info-icon {
-        color: rgba(80, 118, 46, 0.8) !important;
+        color: rgba(155, 89, 182, 0.8) !important;
     }
     .setting-item label .info-icon:hover {
-        color: rgba(80, 118, 46, 1) !important;
+        color: rgba(155, 89, 182, 1) !important;
     }
 
     /* --- Select focus --- */
     .setting-item select:focus {
-        border-color: rgba(80, 118, 46, 0.5) !important;
-        box-shadow: 0 0 0 3px rgba(80, 118, 46, 0.15), 0 1px 0 rgba(255, 255, 255, 0.1) inset !important;
+        border-color: rgba(155, 89, 182, 0.5) !important;
+        box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.15), 0 1px 0 rgba(255, 255, 255, 0.1) inset !important;
     }
 
     /* --- Color-shift divider --- */
     .color-shift-divider {
-        background: linear-gradient(to right, #50762E, #8D9E40, #36511F, #8D9E40, #50762E) !important;
+        background: linear-gradient(to right, #9b59b6, #bb86fc, #7b3f96, #bb86fc, #9b59b6) !important;
     }
 
     /* --- Date values --- */
     .date-value {
-        background-color: rgba(80, 118, 46, 0.1) !important;
-        color: #8D9E40 !important;
+        background-color: rgba(155, 89, 182, 0.1) !important;
+        color: #bb86fc !important;
     }
 
     /* --- Styled select dropdown glow --- */
     @keyframes glowing-ring {
-        0%   { box-shadow: 0 0 15px #50762E, 0 0 5px rgba(80, 118, 46, 0.4); }
-        25%  { box-shadow: 0 0 15px #8D9E40, 0 0 5px rgba(141, 158, 64, 0.4); }
-        50%  { box-shadow: 0 0 15px #36511F, 0 0 5px rgba(54, 81, 31, 0.4); }
-        75%  { box-shadow: 0 0 15px #8D9E40, 0 0 5px rgba(141, 158, 64, 0.4); }
-        100% { box-shadow: 0 0 15px #50762E, 0 0 5px rgba(80, 118, 46, 0.4); }
+        0%   { box-shadow: 0 0 15px #9b59b6, 0 0 5px rgba(155, 89, 182, 0.4); }
+        25%  { box-shadow: 0 0 15px #bb86fc, 0 0 5px rgba(187, 134, 252, 0.4); }
+        50%  { box-shadow: 0 0 15px #7b3f96, 0 0 5px rgba(123, 63, 150, 0.4); }
+        75%  { box-shadow: 0 0 15px #bb86fc, 0 0 5px rgba(187, 134, 252, 0.4); }
+        100% { box-shadow: 0 0 15px #9b59b6, 0 0 5px rgba(155, 89, 182, 0.4); }
     }
     @keyframes glowing-ring-hover {
-        0%   { box-shadow: 0 0 20px #50762E, 0 0 10px rgba(80, 118, 46, 0.6); }
-        25%  { box-shadow: 0 0 20px #8D9E40, 0 0 10px rgba(141, 158, 64, 0.6); }
-        50%  { box-shadow: 0 0 20px #36511F, 0 0 10px rgba(54, 81, 31, 0.6); }
-        75%  { box-shadow: 0 0 20px #8D9E40, 0 0 10px rgba(141, 158, 64, 0.6); }
-        100% { box-shadow: 0 0 20px #50762E, 0 0 10px rgba(80, 118, 46, 0.6); }
+        0%   { box-shadow: 0 0 20px #9b59b6, 0 0 10px rgba(155, 89, 182, 0.6); }
+        25%  { box-shadow: 0 0 20px #bb86fc, 0 0 10px rgba(187, 134, 252, 0.6); }
+        50%  { box-shadow: 0 0 20px #7b3f96, 0 0 10px rgba(123, 63, 150, 0.6); }
+        75%  { box-shadow: 0 0 20px #bb86fc, 0 0 10px rgba(187, 134, 252, 0.6); }
+        100% { box-shadow: 0 0 20px #9b59b6, 0 0 10px rgba(155, 89, 182, 0.6); }
     }
 
     /* --- Scrollbar --- */
     ::-webkit-scrollbar-thumb {
-        background: rgba(80, 118, 46, 0.4) !important;
+        background: rgba(155, 89, 182, 0.4) !important;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: rgba(80, 118, 46, 0.6) !important;
+        background: rgba(155, 89, 182, 0.6) !important;
     }
 </style>
 
-<!-- Favicon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦎</text></svg>" type="image/svg+xml">
+<!-- Favicon: purple shield with KY -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L90 20 L90 55 C90 75 70 92 50 98 C30 92 10 75 10 55 L10 20 Z' fill='%239b59b6'/><text x='50' y='62' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='32' fill='white'>KY</text></svg>" type="image/svg+xml">

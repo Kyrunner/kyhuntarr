@@ -7,28 +7,28 @@
     --text-secondary: #495057;
     --text-muted: #6c757d;
     --border-color: #dee2e6;
-    --accent-color: #3498db;
-    --accent-hover: #2980b9;
+    --accent-color: #9b59b6;
+    --accent-hover: #7b3f96;
     --success-color: #27ae60;
     --warning-color: #f39c12;
     --error-color: #e74c3c;
-    --info-color: #2980b9;
+    --info-color: #9b59b6;
     --debug-color: #7f8c8d;
     
     /* Component Colors */
     --sidebar-bg: #2c3e50;
     --sidebar-text: #ecf0f1;
     --sidebar-item-hover: #34495e;
-    --sidebar-item-active: #3498db;
+    --sidebar-item-active: #9b59b6;
     --topbar-bg: var(--bg-secondary);
     --card-bg: var(--bg-secondary);
     --switch-bg: #cbd2d9;
-    --switch-active: #3498db;
+    --switch-active: #9b59b6;
     
     /* Button Colors */
-    --button-primary-bg: #3498db;
+    --button-primary-bg: #9b59b6;
     --button-primary-text: #ffffff;
-    --button-primary-hover: #2980b9;
+    --button-primary-hover: #7b3f96;
     --button-danger-bg: #e74c3c;
     --button-danger-hover: #c0392b;
     --button-success-bg: #27ae60;
@@ -44,28 +44,28 @@
 }
 
 .dark-theme {
-    --bg-primary: #1a1d24;
-    --bg-secondary: #252a34;
-    --bg-tertiary: #2d3748;
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1a1a1a;
     --text-primary: #f8f9fa;
     --text-secondary: #e9ecef;
     --text-muted: #adb5bd;
-    --border-color: #4a5568;
-    --accent-color: #3498db;
-    --accent-hover: #2980b9;
+    --border-color: #2a2a2a;
+    --accent-color: #bb86fc;
+    --accent-hover: #9b59b6;
     
     /* Component Colors */
-    --sidebar-bg: #121212;
+    --sidebar-bg: #080808;
     --sidebar-text: #ecf0f1;
-    --sidebar-item-hover: #2d3748;
-    --sidebar-item-active: #3498db;
-    --topbar-bg: #252a34;
-    --card-bg: #252a34;
-    --switch-bg: #4a5568;
+    --sidebar-item-hover: #1a1a1a;
+    --sidebar-item-active: #bb86fc;
+    --topbar-bg: #141414;
+    --card-bg: #141414;
+    --switch-bg: #2a2a2a;
     
     /* Logs Colors */
-    --log-bg: #252a34;
-    --log-border: #4a5568;
+    --log-bg: #141414;
+    --log-border: #2a2a2a;
 }
 
 /* Base Styles */

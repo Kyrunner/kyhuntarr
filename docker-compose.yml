@@ -1,17 +1,17 @@
 services:
-  huntarr:
+  kyhuntarr:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: huntarr
+    container_name: kyhuntarr
     ports:
       - "9705:9705"
     volumes:
-      - huntarr-config:/config
+      - kyhuntarr-config:/config
     environment:
       - TZ=America/New_York
     restart: unless-stopped
 
 volumes:
-  huntarr-config:
-    name: huntarr-config
+  kyhuntarr-config:
+    name: kyhuntarr-config

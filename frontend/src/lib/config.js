@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const CONFIG_FILE = path.resolve('huntarr.json');
+const CONFIG_FILE = path.resolve('kyhuntarr.json');
 let cachedConfig = null;
 let lastReadTime = 0;
 const CACHE_TTL = 2000; // 2 seconds cache time
@@ -31,7 +31,7 @@ export function readConfig(forceRefresh = false) {
         upgradeEpisodesSearch: 0,
         searchInterval: 900
       },
-      huntarr: {},
+      kyhuntarr: {},
       advanced: {}
     };
   }

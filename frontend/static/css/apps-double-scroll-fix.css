@@ -40,8 +40,7 @@ html, body {
 .app-apps-panel,
 .app-content-panel,
 #appsContainer,
-#sonarrApps, #radarrApps, #lidarrApps, #readarrApps,
-#whisparrApps, #erosApps, #swaparrApps, #cleanuperrApps,
+#sonarrApps, #radarrApps, #lidarrApps,
 .additional-options-section,
 .additional-options,
 .skip-series-refresh,
@@ -63,8 +62,7 @@ table, tr, td, tbody, thead {
     margin-bottom: 50px !important;
 }
 
-#sonarrApps, #radarrApps, #lidarrApps, #readarrApps,
-#whisparrApps, #erosApps, #swaparrApps, #cleanuperrApps {
+#sonarrApps, #radarrApps, #lidarrApps {
     padding-bottom: 30px !important;
     margin-bottom: 20px !important;
 }
