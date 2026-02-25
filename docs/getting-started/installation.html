@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation Guide - KYHUNTARR.io Documentation</title>
+    <title>Installation Guide - Huntarr.io Documentation</title>
     <link rel="stylesheet" href="../css/main.css">
     <script src="../js/main.js" defer></script>
 </head>
@@ -11,7 +11,7 @@
     <div class="sidebar">
         <div class="sidebar-logo">
             <img src="../images/kyhuntarr-logo.png" alt="KYHUNTARR Logo">
-            <h2>KYHUNTARR.io</h2>
+            <h2>Huntarr.io</h2>
         </div>
         
         <nav class="sidebar-nav">
@@ -48,12 +48,12 @@
             <h1>Installation Guide</h1>
             
             <section class="installation-overview">
-                <p>This guide will walk you through the installation process for KYHUNTARR.io. KYHUNTARR.io can be installed in several ways depending on your preference and system configuration.</p>
+                <p>This guide will walk you through the installation process for Huntarr.io. Huntarr.io can be installed in several ways depending on your preference and system configuration.</p>
             </section>
             
             <section class="system-requirements">
                 <h2>System Requirements</h2>
-                <p>Before installing KYHUNTARR.io, ensure your system meets the following requirements:</p>
+                <p>Before installing Huntarr.io, ensure your system meets the following requirements:</p>
                 
                 <table>
                     <tr>
@@ -103,7 +103,7 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="docker">
                             <h3>Docker Installation</h3>
-                            <p>The recommended way to install KYHUNTARR.io is using Docker and Docker Compose. This method ensures that all dependencies are correctly installed and configured.</p>
+                            <p>The recommended way to install Huntarr.io is using Docker and Docker Compose. This method ensures that all dependencies are correctly installed and configured.</p>
                             
                             <h4>Prerequisites</h4>
                             <ul>
@@ -117,12 +117,12 @@
                                     <pre><code>git clone https://github.com/Kyrunner/kyhuntarr.git</code></pre>
                                 </li>
                                 <li>Navigate to the directory:
-                                    <pre><code>cd KYHUNTARR.io</code></pre>
+                                    <pre><code>cd Huntarr.io</code></pre>
                                 </li>
                                 <li>Run the Docker Compose command:
                                     <pre><code>docker-compose up -d</code></pre>
                                 </li>
-                                <li>Access KYHUNTARR.io through your browser:
+                                <li>Access Huntarr.io through your browser:
                                     <pre><code>http://localhost:7575</code></pre>
                                 </li>
                             </ol>
@@ -161,7 +161,7 @@ services:
                             </ul>
                             
                             <h4>One-line Installation</h4>
-                            <p>Run the following command to install KYHUNTARR.io:</p>
+                            <p>Run the following command to install Huntarr.io:</p>
                             <pre><code>curl -sSL https://install.kyhuntarr.io | bash</code></pre>
                             
                             <h4>Advanced Options</h4>
@@ -179,7 +179,7 @@ services:
                         
                         <div class="tab-pane" id="manual">
                             <h3>Manual Installation</h3>
-                            <p>If you prefer to install KYHUNTARR.io manually, follow these steps based on your operating system.</p>
+                            <p>If you prefer to install Huntarr.io manually, follow these steps based on your operating system.</p>
                             
                             <h4>Linux (Ubuntu/Debian)</h4>
                             <ol>
@@ -191,7 +191,7 @@ sudo apt install -y nodejs npm git</code></pre>
                                     <pre><code>git clone https://github.com/Kyrunner/kyhuntarr.git</code></pre>
                                 </li>
                                 <li>Navigate to the directory:
-                                    <pre><code>cd KYHUNTARR.io</code></pre>
+                                    <pre><code>cd Huntarr.io</code></pre>
                                 </li>
                                 <li>Install npm dependencies:
                                     <pre><code>npm install</code></pre>
@@ -210,7 +210,7 @@ sudo apt install -y nodejs npm git</code></pre>
                                     <pre><code>git clone https://github.com/Kyrunner/kyhuntarr.git</code></pre>
                                 </li>
                                 <li>Navigate to the directory:
-                                    <pre><code>cd KYHUNTARR.io</code></pre>
+                                    <pre><code>cd Huntarr.io</code></pre>
                                 </li>
                                 <li>Install npm dependencies:
                                     <pre><code>npm install</code></pre>
@@ -232,7 +232,7 @@ sudo apt install -y nodejs npm git</code></pre>
                                     <pre><code>git clone https://github.com/Kyrunner/kyhuntarr.git</code></pre>
                                 </li>
                                 <li>Navigate to the directory:
-                                    <pre><code>cd KYHUNTARR.io</code></pre>
+                                    <pre><code>cd Huntarr.io</code></pre>
                                 </li>
                                 <li>Install npm dependencies:
                                     <pre><code>npm install</code></pre>
@@ -250,24 +250,24 @@ sudo apt install -y nodejs npm git</code></pre>
                 <h2>Post Installation</h2>
                 
                 <h3>Initial Setup</h3>
-                <p>After installing KYHUNTARR.io, you'll need to complete the initial setup:</p>
+                <p>After installing Huntarr.io, you'll need to complete the initial setup:</p>
                 <ol>
                     <li>Access the web interface (default: <code>http://localhost:7575</code>)</li>
                     <li>Create an administrator account when prompted</li>
                     <li>Follow the setup wizard to configure your media paths and integrate with media applications (Sonarr, Radarr, etc.)</li>
                 </ol>
                 
-                <h3>Updating KYHUNTARR.io</h3>
-                <p>To update KYHUNTARR.io to the latest version:</p>
+                <h3>Updating Huntarr.io</h3>
+                <p>To update Huntarr.io to the latest version:</p>
                 
                 <h4>Docker Installation</h4>
-                <pre><code>cd /path/to/KYHUNTARR.io
+                <pre><code>cd /path/to/Huntarr.io
 git pull
 docker-compose pull
 docker-compose up -d</code></pre>
                 
                 <h4>Manual Installation</h4>
-                <pre><code>cd /path/to/KYHUNTARR.io
+                <pre><code>cd /path/to/Huntarr.io
 git pull
 npm install
 npm restart</code></pre>
@@ -292,7 +292,7 @@ id $(whoami)</code></pre>
                 
                 <div class="issue-card">
                     <h4>Connectivity problems</h4>
-                    <p>If you can't connect to KYHUNTARR.io after installation:</p>
+                    <p>If you can't connect to Huntarr.io after installation:</p>
                     <ul>
                         <li>Check if the service is running: <code>docker ps | grep kyhuntarr</code></li>
                         <li>Check the logs: <code>docker logs kyhuntarr</code></li>
@@ -307,7 +307,7 @@ id $(whoami)</code></pre>
             </div>
             
             <footer>
-                KYHUNTARR.io <span class="version-badge">v6.5.18</span> | Installation Guide | Thanks 4 Using KYHUNTARR - Admin9705
+                Huntarr.io <span class="version-badge">v6.5.18</span> | Installation Guide | Thanks 4 Using Huntarr - Admin9705
             </footer>
         </div>
     </div>

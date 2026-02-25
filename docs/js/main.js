@@ -1,4 +1,4 @@
-// KYHUNTARR.io Documentation JavaScript
+// Huntarr.io Documentation JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     // Add copy functionality to code blocks

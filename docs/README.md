@@ -1,6 +1,6 @@
-# KYHUNTARR.io Documentation
+# Huntarr.io Documentation
 
-This directory contains the official documentation for the KYHUNTARR.io project, which is automatically published to [https://github.com/Kyrunner/kyhuntarr/docs](https://github.com/Kyrunner/kyhuntarr/docs).
+This directory contains the official documentation for the Huntarr.io project, which is automatically published to [https://github.com/Kyrunner/kyhuntarr/docs](https://github.com/Kyrunner/kyhuntarr/docs).
 
 ## Structure
 
@@ -19,7 +19,7 @@ To contribute to the documentation:
 To test documentation locally, you can use Python's built-in HTTP server:
 
 ```bash
-cd /path/to/KYHUNTARR.io/docs
+cd /path/to/Huntarr.io/docs
 python -m http.server 8000
 ```
 

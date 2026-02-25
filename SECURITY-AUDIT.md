@@ -1,12 +1,12 @@
 # KYHUNTARR Security Audit
 
 **Audit Date:** 2026-02-24
-**Codebase:** KYHUNTARR (fork of KYHUNTARR v6.6.3)
+**Codebase:** KYHUNTARR (fork of NewtArr, itself a fork of Huntarr v6.6.3)
 **Audited By:** Automated analysis (Claude)
 **Scope:** Full codebase — backend Python, frontend JavaScript/HTML, configuration, and deployment
 
-> **Context:** This audit was performed on the v6.6.3 codebase inherited from the upstream KYHUNTARR project.
-> These findings represent **pre-existing issues** in the original code. KYHUNTARR is designed to run behind
+> **Context:** This audit was performed on the v6.6.3 codebase inherited from the upstream Huntarr project.
+> These findings represent **pre-existing issues** in the original code. NewtArr was designed to run behind
 > an SSO proxy (e.g., Authelia, Authentik) in ElfHosted deployments, which mitigates many of the
 > authentication-related findings. Standalone users should review these findings carefully.
 
